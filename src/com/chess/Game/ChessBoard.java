@@ -1,9 +1,6 @@
 package com.chess.Game;
 
-import com.chess.Game.Pieces.King;
-import com.chess.Game.Pieces.Pawn;
-import com.chess.Game.Pieces.Piece;
-import com.chess.Game.Pieces.Rook;
+import com.chess.Game.Pieces.*;
 import com.chess.Settings;
 
 import java.util.ArrayList;
@@ -35,6 +32,11 @@ public class ChessBoard {
         board[0][7] = new Rook(playerColor, 2);
         board[7][0] = new Rook(otherPlayerColor, 1);
         board[7][7] = new Rook(otherPlayerColor, 1);
+        // Place Bishops
+        board[0][2] = new Bishop(playerColor, 2);
+        board[0][5] = new Bishop(playerColor, 2);
+        board[7][2] = new Bishop(otherPlayerColor, 1);
+        board[7][5] = new Bishop(otherPlayerColor, 1);
         // TODO will have to edit this to put the pieces in the correct starting positions
 
     }
