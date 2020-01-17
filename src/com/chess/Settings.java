@@ -11,8 +11,8 @@ public class Settings {
     public static Color borderColor = darkBoardColor.darker();
     public static Color selectColor = NamedColor.blue;
     public static Color highlightColor = NamedColor.black;
-    public static NamedColor p1Color = NamedColor.black;
-    public static NamedColor p2Color = NamedColor.ivory;
+    public static NamedColor p1Color = NamedColor.ivory;
+    public static NamedColor p2Color = NamedColor.black;
     public static boolean reverseOrder = false;
     public static boolean soundEffects = true;
     public static NamedColor yourColor = null;

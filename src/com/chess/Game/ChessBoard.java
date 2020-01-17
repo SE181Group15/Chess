@@ -25,11 +25,11 @@ public class ChessBoard {
             board[6][x] = new Pawn(otherPlayerColor, 1);
         }
         // Place Queens
-        board[0][4] = new Queen(playerColor, 2);
-        board[7][4] = new Queen(otherPlayerColor, 1);
+        board[0][3] = new Queen(playerColor, 2);
+        board[7][3] = new Queen(otherPlayerColor, 1);
         // Place Kings
-        board[0][3] = new King(playerColor, 2);
-        board[7][3] = new King(otherPlayerColor, 1);
+        board[0][4] = new King(playerColor, 2);
+        board[7][4] = new King(otherPlayerColor, 1);
         // Place Rooks
         board[0][0] = new Rook(playerColor, 2);
         board[0][7] = new Rook(playerColor, 2);
