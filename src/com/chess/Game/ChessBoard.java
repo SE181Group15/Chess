@@ -104,6 +104,9 @@ public class ChessBoard {
         }
         setPosition(move.getTo(), p);
         p.onMove(move);
+        if (move.getOtherMove() != null) {
+            return makeMove(move.getOtherMove(), true);
+        }
         return true;
     }
 

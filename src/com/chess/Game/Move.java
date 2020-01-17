@@ -6,6 +6,7 @@ public class Move{
     protected Coordinate from;
     protected Coordinate to;
     protected Coordinate capture;
+    protected Move otherMove;
 
     public Move(String move) {
         if (move == null) {
@@ -30,15 +31,21 @@ public class Move{
     }
 
     public Move(Coordinate from, Coordinate to) {
+        this(from, to, null, null);
         this.from = from;
         this.to = to;
         this.capture = null;
     }
 
     public Move(Coordinate from, Coordinate to, Coordinate capture) {
+        this(from, to, capture, null);
+    }
+
+    public Move(Coordinate from, Coordinate to, Coordinate capture, Move otherMove) {
         this.from = from;
         this.to = to;
         this.capture = capture;
+        this.otherMove = otherMove;
     }
 
     public Coordinate getFrom() {
@@ -71,5 +78,9 @@ public class Move{
 
     public Move flip() {
         return new Move(getFrom().flip(), getTo().flip(), capture == null ? null : capture.flip());
+    }
+
+    public Move getOtherMove() {
+        return otherMove;
     }
 }

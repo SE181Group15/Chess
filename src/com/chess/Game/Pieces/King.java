@@ -38,6 +38,42 @@ public class King extends Piece {
                 }
             }
         }
+        // Castling
+        if (!hasMoved()) {
+            for (int x = 0; x < 8; x += 7) {
+                try {
+                    Coordinate rookCoord = new Coordinate(x, position.getY());
+                    Piece rook = boardState.getPiece(rookCoord);
+                    if (!rook.hasMoved()) {
+                        // We can consider this move
+                        int direction = 1;
+                        if (x == 0) {
+                            direction = -1;
+                        }
+                        boolean isValid = true;
+                        // First check that the middle spaces are empty
+                        Coordinate check = new Coordinate(position.getX() + direction, position.getY());
+                        while (!check.equals(rookCoord)) {
+                            if (boardState.getPiece(check) != null) {
+                                isValid = false;
+                                break;
+                            }
+                            check = new Coordinate(check.getX() + direction, position.getY());
+                        }
+                        // Then check that none of the spaces the king will enter are in check
+                        // TODO this bit
+
+                        if (isValid) {
+                            Coordinate kingTo = new Coordinate(position.getX() + 2 * direction, position.getY());
+                            Coordinate rookTo = new Coordinate(kingTo.getX() - 1 * direction, position.getY());
+                            moves.add(new Move(position, kingTo, null, new Move(rookCoord, rookTo, null)));
+                        }
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+        }
         return moves;
     }
 
