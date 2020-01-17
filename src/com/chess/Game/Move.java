@@ -57,7 +57,7 @@ public class Move{
 
     @Override
     public String toString() {
-        return (isCapture() ? "Capture: " : "Move: ") + from + " -> " + to;
+        return (isCapture() ? "Capture " + capture + ": " : "Move: ") + from + " -> " + to;
     }
 
     @Override
@@ -70,6 +70,6 @@ public class Move{
     }
 
     public Move flip() {
-        return new Move(getFrom().flip(), getTo().flip(), capture);
+        return new Move(getFrom().flip(), getTo().flip(), capture == null ? null : capture.flip());
     }
 }
