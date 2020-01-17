@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Pawn extends Piece {
     protected int direction;
+    protected boolean canEnPassant;
     public Pawn(NamedColor color, int player) {
         super(color, player);
         if (player == 1) {
@@ -17,15 +18,20 @@ public class Pawn extends Piece {
         } else {
             direction = 1 ;
         }
+        canEnPassant = false;
     }
 
-    public Pawn(NamedColor color, int player, boolean hasMoved) {
+    public Pawn(NamedColor color, int player, boolean hasMoved, boolean canEnPassant) {
         this(color, player);
         this.hasMoved = hasMoved;
+        this.canEnPassant = canEnPassant;
     }
+
+    public boolean canEnPassant() { return canEnPassant; }
 
     @Override
     public List<Move> getMoves(Coordinate position, ChessBoard boardState) {
+        canEnPassant = false;
         List<Move> moves = new ArrayList<>();
         Coordinate oneForward = new Coordinate(position.getX(), position.getY() + direction);
         Coordinate twoForward = new Coordinate(position.getX(), position.getY() + 2 * direction);
@@ -63,11 +69,50 @@ public class Pawn extends Piece {
         } catch (Exception e) {
 
         }
+        // En Passant Left
+        try {
+            Coordinate left = new Coordinate(position.getX() - 1, position.getY());
+            Piece p = boardState.getPiece(left);
+            if (p != null && p.getColor() != getColor() && p instanceof Pawn) {
+                Pawn pawn = (Pawn) p;
+                if (pawn.canEnPassant()) {
+                    moves.add(new Move(position, leftCapture, left));
+                }
+            }
+        } catch (Exception e) {
+
+        }
+        // En Passant Right
+        try {
+            Coordinate right = new Coordinate(position.getX() + 1, position.getY());
+            Piece p = boardState.getPiece(right);
+            if (p != null && p.getColor() != getColor() && p instanceof Pawn) {
+                Pawn pawn = (Pawn) p;
+                if (pawn.canEnPassant()) {
+                    moves.add(new Move(position, rightCapture, right));
+                }
+            }
+        } catch (Exception e) {
+
+        }
         return moves;
     }
 
     @Override
+    public void onMove(Move m) {
+        if (hasMoved == false) {
+            // Check
+            if (Math.abs(m.getFrom().getY() - m.getTo().getY()) == 2) {
+                canEnPassant = true;
+            }
+        } else {
+            canEnPassant = false;
+        }
+        super.onMove(m);
+    }
+
+    @Override
     public Piece clone() {
-        return new Pawn(color, player, hasMoved);
+        return new Pawn(color, player, hasMoved, canEnPassant);
     }
 }
