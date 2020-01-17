@@ -40,8 +40,11 @@ public class ChessBoard {
         board[0][5] = new Bishop(playerColor, 2);
         board[7][2] = new Bishop(otherPlayerColor, 1);
         board[7][5] = new Bishop(otherPlayerColor, 1);
-        // TODO will have to edit this to put the pieces in the correct starting positions
-
+        // Place Knights
+        board[0][1] = new Knight(playerColor, 2);
+        board[0][6] = new Knight(playerColor, 2);
+        board[7][1] = new Knight(otherPlayerColor, 1);
+        board[7][6] = new Knight(otherPlayerColor, 1);
     }
 
     protected ChessBoard(Piece[][] board, NamedColor p1Color, NamedColor p2Color) {
