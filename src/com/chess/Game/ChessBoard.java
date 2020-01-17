@@ -3,6 +3,7 @@ package com.chess.Game;
 import com.chess.Game.Pieces.King;
 import com.chess.Game.Pieces.Pawn;
 import com.chess.Game.Pieces.Piece;
+import com.chess.Game.Pieces.Rook;
 import com.chess.Settings;
 
 import java.util.ArrayList;
@@ -29,6 +30,11 @@ public class ChessBoard {
         // Place Kings
         board[0][3] = new King(playerColor, 2);
         board[7][3] = new King(otherPlayerColor, 1);
+        // Place Rooks
+        board[0][0] = new Rook(playerColor, 2);
+        board[0][7] = new Rook(playerColor, 2);
+        board[7][0] = new Rook(otherPlayerColor, 1);
+        board[7][7] = new Rook(otherPlayerColor, 1);
         // TODO will have to edit this to put the pieces in the correct starting positions
 
     }

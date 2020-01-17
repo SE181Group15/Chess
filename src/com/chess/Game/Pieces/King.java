@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class King extends Piece {
-    
+
     protected int HEURISTIC_VALUE = 10;
 
     public King(NamedColor color, int player) {
