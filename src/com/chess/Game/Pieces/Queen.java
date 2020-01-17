@@ -22,7 +22,10 @@ public class Queen extends Piece {
     @Override
     public List<Move> getMoves(Coordinate position, ChessBoard boardState) {
         List<Move> moves = new ArrayList<>();
-        // TODO this
+        Piece rook = new Rook(color, player);
+        moves.addAll(rook.getMoves(position, boardState));
+        Piece bishop = new Bishop(color, player);
+        moves.addAll(bishop.getMoves(position, boardState));
         return moves;
     }
 

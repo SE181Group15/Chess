@@ -24,6 +24,9 @@ public class ChessBoard {
         for (int x = 0; x < board[6].length; x++) {
             board[6][x] = new Pawn(otherPlayerColor, 1);
         }
+        // Place Queens
+        board[0][4] = new Queen(playerColor, 2);
+        board[7][4] = new Queen(otherPlayerColor, 1);
         // Place Kings
         board[0][3] = new King(playerColor, 2);
         board[7][3] = new King(otherPlayerColor, 1);
