@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Queen extends Piece {
+    protected int HEURISTIC_VALUE = 9;
 
     public Queen(NamedColor color, int player) {
         super(color, player);
@@ -20,12 +21,12 @@ public class Queen extends Piece {
     }
 
     @Override
-    public List<Move> getMoves(Coordinate position, ChessBoard boardState) {
+    public List<Move> getMoves(Coordinate position, ChessBoard boardState, boolean forCheck) {
         List<Move> moves = new ArrayList<>();
         Piece rook = new Rook(color, player);
-        moves.addAll(rook.getMoves(position, boardState));
+        moves.addAll(rook.getMoves(position, boardState, forCheck));
         Piece bishop = new Bishop(color, player);
-        moves.addAll(bishop.getMoves(position, boardState));
+        moves.addAll(bishop.getMoves(position, boardState, forCheck));
         return moves;
     }
 

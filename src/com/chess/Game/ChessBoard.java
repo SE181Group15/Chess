@@ -53,29 +53,79 @@ public class ChessBoard {
         this.p2Color = p2Color;
     }
 
-    public List<Move> getAllMoves(NamedColor color) {
+    public List<Move> getAllMoves(NamedColor color, boolean forCheck) {
         List<Move> moves = new ArrayList<>();
         for (int y = 0; y < board.length; y++) {
             for (int x = 0; x < board[y].length; x++) {
-                moves.addAll(getAllMoves(color, new Coordinate(x, y)));
+                moves.addAll(getAllMoves(color, new Coordinate(x, y), forCheck));
             }
         }
         return moves;
     }
 
-    public List<Move> getAllMoves(Coordinate from) {
-        return getAllMoves(board[from.getY()][from.getX()].getColor(), from);
+    public List<Move> getAllMoves(Coordinate from, boolean forCheck) {
+        return getAllMoves(board[from.getY()][from.getX()].getColor(), from, forCheck);
     }
 
-    // TODO update this to handle moves each piece can do on the piece class
-    public List<Move> getAllMoves(NamedColor color, Coordinate from) {
+    public List<Move> getAllMoves(NamedColor color, Coordinate from, boolean forCheck) {
         Piece p = board[from.getY()][from.getX()];
         if (p == null || p.getColor().getColorCode() != color.getColorCode()) {
             return new ArrayList<>();
         }
-        List<Move> moves = p.getMoves(from, this);
-
+        List<Move> moves = p.getMoves(from, this, forCheck);
+        if (!forCheck) {
+            List<Move> validMoves = new ArrayList<>();
+            for (Move m: moves) {
+                ChessBoard clone = clone();
+                clone.makeMove(m);
+                if ((m.isCapture() && getPiece(m.getCapture()) instanceof King) || !clone.isChecked(p.getColor())) {
+                    validMoves.add(m);
+                }
+            }
+            return validMoves;
+        }
         return moves;
+    }
+
+    public boolean isChecked(NamedColor player) {
+        // Find king for that player
+        Coordinate kingPosition = null;
+        for (int x = 0; x < board.length; x++) {
+            for (int y = 0; y < board[x].length; y++) {
+                Coordinate test = new Coordinate(x, y);
+                Piece p = getPiece(test);
+                if (p != null && p instanceof King && p.getColor().equals(player)) {
+                    kingPosition = test;
+                    break;
+                }
+            }
+        }
+        // check if the kings position is under threat
+        if (kingPosition == null) {
+            return false;
+        }
+        return isUnderThreat(kingPosition, player);
+    }
+
+    public boolean isUnderThreat(Coordinate position, NamedColor player) {
+        ChessBoard clone = clone();
+        NamedColor enemy;
+        int p;
+        if (p1Color.equals(player)) {
+            enemy = p2Color;
+            p = 2;
+        } else {
+            enemy = p1Color;
+            p = 1;
+        }
+        clone.setPosition(position, new Pawn(player, p));
+        List<Move> enemyMoves = clone.getAllMoves(enemy, true);
+        for (Move m: enemyMoves) {
+            if (m.isCapture() && m.getCapture().equals(position)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean makeMove(Move move) {
@@ -84,20 +134,6 @@ public class ChessBoard {
 
     public boolean makeMove(Move move, boolean force) {
         Coordinate from = move.getFrom();
-        if (!force) {
-            List<Move> validMoves = getAllMoves(from);
-
-            boolean valid = false;
-            for (Move m : validMoves) {
-                if (move.equals(m)) {
-                    valid = true;
-                }
-            }
-            if (!valid) {
-                return false;
-            }
-        }
-
         Piece p = setPosition(from, null);
         if (move.isCapture()) {
             setPosition(move.capture, null);
@@ -108,24 +144,6 @@ public class ChessBoard {
             return makeMove(move.getOtherMove(), true);
         }
         return true;
-    }
-
-    /**
-     * TODO need to update to do checkmates
-     * @return null if the game is not over. otherwise the color of the winner
-     */
-    public NamedColor isGameOver() {
-        NamedColor winner = null;
-        /*for (Integer c: pieceCounts.keySet()) {
-            if (pieceCounts.get(c) != 0) {
-                if (winner == null) {
-                    winner = p1Color.getColorCode() == c ? p1Color : p2Color;
-                } else {
-                    return null;
-                }
-            }
-        }*/
-        return winner;
     }
 
     public Piece[][] getBoard() {

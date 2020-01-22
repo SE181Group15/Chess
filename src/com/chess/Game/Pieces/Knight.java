@@ -10,6 +10,8 @@ import java.util.List;
 
 public class Knight extends Piece {
 
+    protected int HEURISTIC_VALUE = 5;
+
     public Knight(NamedColor color, int player) {
         super(color, player);
     }
@@ -20,7 +22,7 @@ public class Knight extends Piece {
     }
 
     @Override
-    public List<Move> getMoves(Coordinate position, ChessBoard boardState) {
+    public List<Move> getMoves(Coordinate position, ChessBoard boardState, boolean forCheck) {
         List<Move> moves = new ArrayList<>();
         for (int xOffset = -2; xOffset <= 2; xOffset++) {
             for (int yOffset = -2; yOffset <= 2; yOffset++) {
@@ -37,7 +39,6 @@ public class Knight extends Piece {
                 }
             }
         }
-        // TODO this
         return moves;
     }
 

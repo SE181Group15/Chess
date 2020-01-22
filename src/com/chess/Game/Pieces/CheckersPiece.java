@@ -25,7 +25,7 @@ public class CheckersPiece extends Piece {
     }
 
     @Override
-    public List<Move> getMoves(Coordinate position, ChessBoard boardState) {
+    public List<Move> getMoves(Coordinate position, ChessBoard boardState, boolean forCheck) {
         Piece[][] board = boardState.getBoard();
         List<Move> moves = new ArrayList<>();
         for (int dy = -1; dy <= 1; dy +=2) {

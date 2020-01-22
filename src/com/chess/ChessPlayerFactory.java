@@ -50,7 +50,7 @@ public class ChessPlayerFactory {
                     players[i] = new MinMaxAIChessPlayer(colors[i], 1);
                     break;
                 case "H":
-                    players[i] = new MinMaxAIChessPlayer(colors[i], 4);
+                    players[i] = new MinMaxAIChessPlayer(colors[i], 2);
                     break;
             }
         }
