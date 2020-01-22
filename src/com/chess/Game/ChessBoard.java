@@ -129,10 +129,6 @@ public class ChessBoard {
     }
 
     public boolean makeMove(Move move) {
-        return makeMove(move, false);
-    }
-
-    public boolean makeMove(Move move, boolean force) {
         Coordinate from = move.getFrom();
         Piece p = setPosition(from, null);
         if (move.isCapture()) {
@@ -141,7 +137,7 @@ public class ChessBoard {
         setPosition(move.getTo(), p);
         p.onMove(move);
         if (move.getOtherMove() != null) {
-            return makeMove(move.getOtherMove(), true);
+            return makeMove(move.getOtherMove());
         }
         return true;
     }
