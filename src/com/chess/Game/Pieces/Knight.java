@@ -5,6 +5,7 @@ import com.chess.Game.Coordinate;
 import com.chess.Game.Move;
 import com.chess.Game.NamedColor;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class Knight extends Piece {
 
     public Knight(NamedColor color, int player) {
         super(color, player);
+        rawImage = new ImageIcon(getClass().getResource("/com/chess/Assets/knight.png")).getImage();
     }
 
     public Knight(NamedColor color, int player, boolean hasMoved) {

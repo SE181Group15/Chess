@@ -5,6 +5,7 @@ import com.chess.Game.Coordinate;
 import com.chess.Game.Move;
 import com.chess.Game.NamedColor;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class Pawn extends Piece {
             direction = 1 ;
         }
         canEnPassant = false;
+        rawImage = new ImageIcon(getClass().getResource("/com/chess/Assets/pawn.png")).getImage();
     }
 
     public Pawn(NamedColor color, int player, boolean hasMoved, boolean canEnPassant) {

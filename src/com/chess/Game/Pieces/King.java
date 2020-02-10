@@ -6,6 +6,7 @@ import com.chess.Game.Move;
 import com.chess.Game.NamedColor;
 import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class King extends Piece {
 
     public King(NamedColor color, int player) {
         super(color, player);
+        rawImage = new ImageIcon(getClass().getResource("/com/chess/Assets/king.png")).getImage();
     }
 
     public King(NamedColor color, int player, boolean hasMoved) {
