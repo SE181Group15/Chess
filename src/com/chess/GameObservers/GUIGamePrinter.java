@@ -121,7 +121,7 @@ public class GUIGamePrinter extends JPanel implements GameObserver {
             squareWidth = Math.min(squareHeight, squareWidth);
             squareHeight = squareWidth;
 
-            offsetWidth = (getWidth()/2) - (board.getBoard().length/2) * squareHeight;
+            offsetWidth = (getWidth()/2) - (board.getBoard().length/2) * squareWidth;
             offsetHeight = (getHeight()/2) - (board.getBoard().length/2) * squareHeight;
             Piece[][] pieces = board.getBoard();
 
@@ -147,14 +147,21 @@ public class GUIGamePrinter extends JPanel implements GameObserver {
                     //Paint Pieces
                     Piece p = pieces[y][x];
                     if (p != null) {
+                        Color highlight = Settings.highlightColor;
                         if (from != null && from.getX() == x && from.getY() == y && p.getColor() == player.getColor()) {
-                            g.setColor(Settings.selectColor);
-                        } else {
-                            g.setColor(Settings.highlightColor);
+                            highlight = Settings.selectColor;
                         }
-                        g.fillOval((x * squareWidth + ((squareWidth - radius) / 2)) - 3 + offsetWidth, y * squareHeight + ((squareHeight - radius) / 2) - 3 + offsetHeight, radius + 6, radius + 6);
-                        g.setColor(p.getColor());
-                        g.fillOval(x * squareWidth + ((squareWidth - radius) / 2) + offsetWidth, y * squareHeight + ((squareHeight - radius) / 2) + offsetHeight, radius , radius);
+                        if (squareWidth > 0 && squareHeight > 0) {
+                            Image img = p.getImage(highlight, squareHeight, squareWidth);
+                            if (img != null) {
+                                g.drawImage(img, (x * squareWidth + ((squareWidth - radius) / 2)) - 10 + offsetWidth, y * squareHeight + ((squareHeight - radius) / 2) - 10 + offsetHeight, null);
+                            } else {
+                                g.setColor(highlight);
+                                g.fillOval((x * squareWidth + ((squareWidth - radius) / 2)) - 3 + offsetWidth, y * squareHeight + ((squareHeight - radius) / 2) - 3 + offsetHeight, radius + 6, radius + 6);
+                                g.setColor(p.getColor());
+                                g.fillOval(x * squareWidth + ((squareWidth - radius) / 2) + offsetWidth, y * squareHeight + ((squareHeight - radius) / 2) + offsetHeight, radius, radius);
+                            }
+                        }
                     }
                 }
             }
@@ -162,7 +169,7 @@ public class GUIGamePrinter extends JPanel implements GameObserver {
 
         if (this.onGameOverCalled) {
             String message = winner.getName() + " Wins! ";
-            g.setColor(Settings.highlightColor);
+            g.setColor(Settings.lightBoardColor);
             g.fillRect(squareWidth * 8 / 2 - (int) (2.7 * radius) + offsetWidth, (squareHeight * 8 / 2) - radius, radius * message.length() / 2, (radius * 5) / 4);
             g.setFont(new Font("TimesRoman", Font.BOLD,  radius));
             g.setColor(winner);

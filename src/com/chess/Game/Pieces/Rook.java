@@ -5,6 +5,8 @@ import com.chess.Game.Coordinate;
 import com.chess.Game.Move;
 import com.chess.Game.NamedColor;
 
+import javax.swing.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public class Rook extends Piece {
 
     public Rook(NamedColor color, int player) {
         super(color, player);
+        rawImage = new ImageIcon(getClass().getResource("/com/chess/Assets/rook.png")).getImage();
     }
 
     public Rook(NamedColor color, int player, boolean hasMoved) {

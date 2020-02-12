@@ -73,7 +73,7 @@ public class GUISetup {
         icons = new ArrayList<>();
         int imageWidth = 200;
         int imageHeight = 200;
-        icons.add(new ImageIcon(getClass().getResource("/com/chess/Assets/logo128.png")).getImage());
+        icons.add(new ImageIcon(getClass().getResource("/com/chess/Assets/pawn.png")).getImage());
         createOptionsImage = scaleImage(new ImageIcon(getClass().getResource("/com/chess/Assets/createOptions.JPG")), imageWidth, imageHeight);
         onePlayerOptionsImage = scaleImage(new ImageIcon(getClass().getResource("/com/chess/Assets/onePlayerOptions.JPG")), imageWidth, imageHeight);
         twoPlayerOptionsImage = scaleImage(new ImageIcon(getClass().getResource("/com/chess/Assets/twoPlayerOptions.JPG")), imageWidth, imageHeight);

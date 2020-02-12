@@ -5,6 +5,12 @@ import com.chess.Game.Coordinate;
 import com.chess.Game.Move;
 import com.chess.Game.NamedColor;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +19,7 @@ public class Bishop extends Piece {
 
     public Bishop(NamedColor color, int player) {
         super(color, player);
+        rawImage = new ImageIcon(getClass().getResource("/com/chess/Assets/bishop.png")).getImage();
     }
 
     public Bishop(NamedColor color, int player, boolean hasMoved) {
