@@ -26,7 +26,7 @@ public abstract class Piece {
         this.hasMoved = hasMoved;
     }
 
-    public abstract List<Move> getMoves(Coordinate position, ChessBoard board);
+    public abstract List<Move> getMoves(Coordinate position, ChessBoard board, boolean forCheck);
 
     public void onMove(Move move) {
         this.hasMoved = true;

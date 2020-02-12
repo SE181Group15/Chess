@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bishop extends Piece {
+    protected int HEURISTIC_VALUE = 7;
 
     public Bishop(NamedColor color, int player) {
         super(color, player);
@@ -20,7 +21,7 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public List<Move> getMoves(Coordinate position, ChessBoard boardState) {
+    public List<Move> getMoves(Coordinate position, ChessBoard boardState, boolean forCheck) {
         List<Move> moves = new ArrayList<>();
         for (int yDelta = -1; yDelta < 2; yDelta += 2) {
             for (int xDelta = -1; xDelta < 2; xDelta += 2) {
@@ -33,13 +34,14 @@ public class Bishop extends Piece {
                         if (p != null && p.color == getColor()) {
                             break;
                         }
-                        moves.add(new Move(position, to, p == null ? null : to));
+                        if (!forCheck || p != null) {
+                            moves.add(new Move(position, to, p == null ? null : to));
+                        }
                         if (p != null) {
                             break;
                         }
                         x+=xDelta;
                         y+=yDelta;
-
                     }
                 } catch (Exception e) {
 

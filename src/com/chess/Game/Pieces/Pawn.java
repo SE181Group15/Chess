@@ -30,28 +30,30 @@ public class Pawn extends Piece {
     public boolean canEnPassant() { return canEnPassant; }
 
     @Override
-    public List<Move> getMoves(Coordinate position, ChessBoard boardState) {
+    public List<Move> getMoves(Coordinate position, ChessBoard boardState, boolean forCheck) {
         canEnPassant = false;
         List<Move> moves = new ArrayList<>();
         Coordinate oneForward = new Coordinate(position.getX(), position.getY() + direction);
         Coordinate twoForward = new Coordinate(position.getX(), position.getY() + 2 * direction);
         Coordinate leftCapture = new Coordinate(position.getX() - 1, position.getY() + direction);
         Coordinate rightCapture = new Coordinate(position.getX() + 1, position.getY() + direction);
-        try {
-            if (boardState.getPiece(oneForward) == null) {
-                moves.add(new Move(position, oneForward));
-                if (!hasMoved()) {
-                    try {
-                        if (boardState.getPiece(twoForward) == null) {
-                            moves.add(new Move(position, twoForward));
-                        }
-                    } catch (Exception e) {
+        if (!forCheck) {
+            try {
+                if (boardState.getPiece(oneForward) == null) {
+                    moves.add(new Move(position, oneForward));
+                    if (!hasMoved()) {
+                        try {
+                            if (boardState.getPiece(twoForward) == null) {
+                                moves.add(new Move(position, twoForward));
+                            }
+                        } catch (Exception e) {
 
+                        }
                     }
                 }
-            }
-        } catch (Exception e) {
+            } catch (Exception e) {
 
+            }
         }
         try {
             Piece p = boardState.getPiece(leftCapture);
