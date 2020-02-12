@@ -12,4 +12,7 @@ public interface GameObserver {
     void onInit(ChessBoard board);
     void onGameOver(NamedColor winner);
     void onMoveRequest(ChessBoard board, List<Move> m, ChessPlayer player);
+    void onCheck(NamedColor inCheck);
+    void onResign(NamedColor resigner);
+    void onDraw();
 }

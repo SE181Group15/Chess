@@ -50,6 +50,21 @@ public class GUITurnPrinter extends JPanel implements GameObserver {
     }
 
     @Override
+    public void onCheck(NamedColor inCheck) {
+
+    }
+
+    @Override
+    public void onResign(NamedColor resigner) {
+
+    }
+
+    @Override
+    public void onDraw() {
+
+    }
+
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 

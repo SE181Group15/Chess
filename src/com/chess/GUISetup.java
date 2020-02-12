@@ -490,6 +490,11 @@ public class GUISetup {
         return null;
     }
 
+    public static Component buildAboutComponents() {
+        //TODO
+        return null;
+    }
+
     public static Component switchToOnePlayer() {
         Component components = buildOnePlayerCompenents();
         switchTo(components);
@@ -535,5 +540,11 @@ public class GUISetup {
         Component settingsComponents = buildSettingsComponents();
         switchTo(settingsComponents);
         return settingsComponents;
+    }
+
+    public static Component switchToAbout() {
+        Component aboutComponents = buildAboutComponents();
+        switchTo(aboutComponents);
+        return aboutComponents;
     }
 }
