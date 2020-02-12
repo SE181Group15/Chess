@@ -64,6 +64,21 @@ public abstract class ChessPlayer implements GameObserver {
     }
 
     @Override
+    public void onCheck(NamedColor inCheck) {
+
+    }
+
+    @Override
+    public void onResign(NamedColor resigner) {
+
+    }
+
+    @Override
+    public void onDraw(){
+
+    }
+
+    @Override
     public void onMoveRequest(ChessBoard board, List<Move> m, ChessPlayer player) {
 
     }

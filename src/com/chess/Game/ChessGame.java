@@ -52,6 +52,7 @@ public class ChessGame {
                         validMoves = requestNextPlayer();
                         if (validMoves == null) {
                             // TODO this is where we will need to put code for draw on no moves and for win if player is in check
+                            NamedColor defaultWinner = players[Math.abs(player - 1)].getColor();
                             observers.forEach(o -> o.onGameOver(defaultWinner));
                             stopClock();
                             return;

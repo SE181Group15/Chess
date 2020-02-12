@@ -79,6 +79,21 @@ public class GUIGamePrinter extends JPanel implements GameObserver {
 
     }
 
+    @Override
+    public void onCheck(NamedColor inCheck) {
+
+    }
+
+    @Override
+    public void onResign(NamedColor resigner) {
+
+    }
+
+    @Override
+    public void onDraw() {
+
+    }
+
     public void onClick(int x, int y) {
         if (onGameOverCalled) {
             GUISetup.currentComponent = GUISetup.switchToMainMenu();

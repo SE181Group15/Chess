@@ -29,4 +29,19 @@ public class StringGamePrinter implements GameObserver {
     public void onMoveRequest(ChessBoard board, List<Move> m, ChessPlayer player) {
 
     }
+
+    @Override
+    public void onCheck(NamedColor inCheck) {
+
+    }
+
+    @Override
+    public void onResign(NamedColor resigner) {
+
+    }
+
+    @Override
+    public void onDraw() {
+
+    }
 }
