@@ -38,12 +38,6 @@ public class ChessGame {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 // Check for GameOver and stop loop
-                NamedColor winner = board.isGameOver();
-                if (winner != null) {
-                    observers.forEach(o -> o.onGameOver(winner));
-                    stopClock();
-                    return;
-                }
 
                 ChessPlayer p = players[player];
                 Move m = p.getNextMove();
@@ -57,8 +51,7 @@ public class ChessGame {
                         observers.forEach(o -> o.onMove(board, m, p));
                         validMoves = requestNextPlayer();
                         if (validMoves == null) {
-                            // TODO this is where we will need to put code for draw on no moves
-                            NamedColor defaultWinner = players[Math.abs(player - 1)].getColor();
+                            // TODO this is where we will need to put code for draw on no moves and for win if player is in check
                             observers.forEach(o -> o.onGameOver(defaultWinner));
                             stopClock();
                             return;
@@ -71,7 +64,7 @@ public class ChessGame {
                 List<Move> moves;
                 player = (player + 1) % players.length;
                 ChessPlayer p = players[player];
-                moves = board.getAllMoves(p.getColor());
+                moves = board.getAllMoves(p.getColor(), false);
                 if (moves.size() > 0) {
                     p.requestMove(board, moves);
                     ChessPlayer p2 = p;

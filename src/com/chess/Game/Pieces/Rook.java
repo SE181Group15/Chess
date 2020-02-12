@@ -12,6 +12,8 @@ import java.util.List;
 
 public class Rook extends Piece {
 
+    protected int HEURISTIC_VALUE = 7;
+
     public Rook(NamedColor color, int player) {
         super(color, player);
         rawImage = new ImageIcon(getClass().getResource("/com/chess/Assets/rook.png")).getImage();
@@ -23,7 +25,7 @@ public class Rook extends Piece {
     }
 
     @Override
-    public List<Move> getMoves(Coordinate position, ChessBoard boardState) {
+    public List<Move> getMoves(Coordinate position, ChessBoard boardState, boolean forCheck) {
         List<Move> moves = new ArrayList<>();
         // Right
         try {

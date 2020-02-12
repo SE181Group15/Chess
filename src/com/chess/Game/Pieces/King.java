@@ -25,7 +25,7 @@ public class King extends Piece {
     }
 
     @Override
-    public List<Move> getMoves(Coordinate position, ChessBoard boardState) {
+    public List<Move> getMoves(Coordinate position, ChessBoard boardState, boolean forCheck) {
         List<Move> moves = new ArrayList<>();
         for (int x = position.getX() - 1; x <= position.getX() + 1; x++) {
             for (int y = position.getY() - 1; y <= position.getY() + 1; y++) {
@@ -41,7 +41,7 @@ public class King extends Piece {
             }
         }
         // Castling
-        if (!hasMoved()) {
+        if (!hasMoved() && !forCheck && !boardState.isChecked(color)) {
             for (int x = 0; x < 8; x += 7) {
                 try {
                     Coordinate rookCoord = new Coordinate(x, position.getY());
@@ -62,8 +62,24 @@ public class King extends Piece {
                             }
                             check = new Coordinate(check.getX() + direction, position.getY());
                         }
-                        // Then check that none of the spaces the king will enter are in check
-                        // TODO this bit
+                        if (isValid) {
+                            // Then check that none of the spaces the king will enter are in check
+                            if (direction == 1) {
+                                for (int pos = position.getX(); pos <= position.getX() + 2 * direction; pos += direction) {
+                                    check = new Coordinate(pos, position.getY());
+                                    if (boardState.isUnderThreat(check, color)) {
+                                        isValid = false;
+                                    }
+                                }
+                            } else {
+                                for (int pos = position.getX(); pos >= position.getX() + 2 * direction; pos += direction) {
+                                    check = new Coordinate(pos, position.getY());
+                                    if (boardState.isUnderThreat(check, color)) {
+                                        isValid = false;
+                                    }
+                                }
+                            }
+                        }
 
                         if (isValid) {
                             Coordinate kingTo = new Coordinate(position.getX() + 2 * direction, position.getY());

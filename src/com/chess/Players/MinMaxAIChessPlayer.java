@@ -61,10 +61,9 @@ public class MinMaxAIChessPlayer extends AIChessPlayer {
     }
 
     public int Max_Value(ChessBoard state, int d){
-        if(state.isGameOver() != null) return state.score() - 3;
         if(d > searchDepth) return state.score();
         int v = Integer.MIN_VALUE;
-        List<Move> mvs = state.getAllMoves(Settings.p1Color);
+        List<Move> mvs = state.getAllMoves(Settings.p1Color, false);
         for(Move m: mvs) {
             ChessBoard board = state.clone();
             board.makeMove(m);
@@ -73,10 +72,9 @@ public class MinMaxAIChessPlayer extends AIChessPlayer {
         return v;
     }
     public int Min_Value(ChessBoard state, int d){
-        if(state.isGameOver() != null) return state.score() + 3;
         if(d > searchDepth) return state.score();
         int v = Integer.MAX_VALUE;
-        List<Move> mvs = state.getAllMoves(Settings.p2Color);
+        List<Move> mvs = state.getAllMoves(Settings.p2Color, false);
         for(Move m: mvs) {
             ChessBoard board = state.clone();
             board.makeMove(m);
