@@ -11,14 +11,15 @@ import java.util.List;
 
 public class Knight extends Piece {
 
-    protected int HEURISTIC_VALUE = 5;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int HEURISTIC_VALUE = 5;
 
     public Knight(NamedColor color, int player) {
         super(color, player);
         rawImage = new ImageIcon(getClass().getResource("/com/chess/Assets/knight.png")).getImage();
     }
 
-    public Knight(NamedColor color, int player, boolean hasMoved) {
+    private Knight(NamedColor color, int player, boolean hasMoved) {
         this(color, player);
         this.hasMoved = hasMoved;
     }
@@ -35,13 +36,18 @@ public class Knight extends Piece {
                         if (p == null || p.getColor() != getColor()) {
                             moves.add(new Move(position, to, p == null ? null : to));
                         }
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
 
                     }
                 }
             }
         }
         return moves;
+    }
+
+    @Override
+    public int getHeuristicValue() {
+        return HEURISTIC_VALUE;
     }
 
     @Override

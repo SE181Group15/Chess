@@ -5,14 +5,15 @@ import com.chess.Game.Move;
 import com.chess.Game.NamedColor;
 import com.chess.Settings;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MinMaxAIChessPlayer extends AIChessPlayer {
 
-    protected int MINDELAY = 500;
-    protected int MAXDELAY = 1000;
-    protected int searchDepth;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int MINIMUM_DELAY = 500;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int MAXIMUM_DELAY = 1000;
+    private final int searchDepth;
 
     public MinMaxAIChessPlayer(NamedColor color, int searchDepth) {
         super(color);
@@ -49,8 +50,8 @@ public class MinMaxAIChessPlayer extends AIChessPlayer {
                 }
             }
             long elapsedTime = startTime - System.currentTimeMillis();
-            int min = MINDELAY - (int) elapsedTime;
-            int max = MAXDELAY - (int) elapsedTime;
+            int min = MINIMUM_DELAY - (int) elapsedTime;
+            int max = MAXIMUM_DELAY - (int) elapsedTime;
             if (min > 0) {
                 delay(min, max);
             }
@@ -60,7 +61,7 @@ public class MinMaxAIChessPlayer extends AIChessPlayer {
         }
     }
 
-    public int Max_Value(ChessBoard state, int d){
+    private int Max_Value(ChessBoard state, int d){
         if(d > searchDepth) return state.score();
         int v = Integer.MIN_VALUE;
         List<Move> mvs = state.getAllMoves(Settings.p1Color, false);
@@ -71,7 +72,7 @@ public class MinMaxAIChessPlayer extends AIChessPlayer {
         }
         return v;
     }
-    public int Min_Value(ChessBoard state, int d){
+    private int Min_Value(ChessBoard state, int d){
         if(d > searchDepth) return state.score();
         int v = Integer.MAX_VALUE;
         List<Move> mvs = state.getAllMoves(Settings.p2Color, false);

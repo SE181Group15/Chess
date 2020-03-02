@@ -8,9 +8,10 @@ import com.chess.Game.NamedColor;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class CheckersPiece extends Piece {
-    protected int direction;
-    public CheckersPiece(NamedColor color, int player) {
+    private final int direction;
+    private CheckersPiece(NamedColor color, int player) {
         super(color, player);
         if (player == 1) {
             direction = -1;
@@ -19,7 +20,7 @@ public class CheckersPiece extends Piece {
         }
     }
 
-    public CheckersPiece(NamedColor color, int player, boolean hasMoved) {
+    private CheckersPiece(NamedColor color, int player, boolean hasMoved) {
         this(color, player);
         this.hasMoved = hasMoved;
     }
@@ -52,6 +53,11 @@ public class CheckersPiece extends Piece {
             }
         }
         return moves;
+    }
+
+    @Override
+    public int getHeuristicValue() {
+        return 1;
     }
 
     @Override

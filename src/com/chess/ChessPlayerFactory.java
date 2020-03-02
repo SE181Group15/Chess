@@ -5,7 +5,7 @@ import com.chess.Players.*;
 
 import java.security.InvalidParameterException;
 
-public class ChessPlayerFactory {
+class ChessPlayerFactory {
     /*
         Code is in form "p1p2" where p1 and p2 can be anything in the list (P, L, R, E, M, H) where
         P is human player
@@ -17,6 +17,7 @@ public class ChessPlayerFactory {
      */
     public static ChessPlayer[] buildPlayers(String code) {
         NamedColor[] colors = {Settings.p1Color, Settings.p2Color};
+        //noinspection SpellCheckingInspection
         String options = "PLREMH";
         boolean invalidCode = false;
         if (code.length() != 2) {

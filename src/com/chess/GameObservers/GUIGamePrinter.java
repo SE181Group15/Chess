@@ -8,29 +8,28 @@ import com.chess.Settings;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GUIGamePrinter extends JPanel implements GameObserver {
-    ChessBoard board;
-    public static int borderWidth = 20;
-    boolean onGameOverCalled = false;
-    NamedColor winner = null;
-    List<Move> moveOptions = new ArrayList<>();
-    ChessPlayer player;
-    List<Move> validMoves;
-    boolean lookingForMove = false;
-    int squareHeight;
-    int squareWidth;
-    Coordinate from = null;
-    int offset = 10;
-    int offsetWidth;
-    int offsetHeight;
-    URL soundbyte = getClass().getResource("/com/chess/Assets/nextTurn.wav");
-    java.applet.AudioClip clip = java.applet.Applet.newAudioClip(soundbyte);
+    private ChessBoard board;
+    public static final int borderWidth = 20;
+    private boolean onGameOverCalled = false;
+    private NamedColor winner = null;
+    private List<Move> moveOptions = new ArrayList<>();
+    private ChessPlayer player;
+    private List<Move> validMoves;
+    private boolean lookingForMove = false;
+    private int squareHeight;
+    private int squareWidth;
+    private Coordinate from = null;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int offset = 10;
+    private int offsetWidth;
+    private int offsetHeight;
+    private final URL soundByte = getClass().getResource("/com/chess/Assets/nextTurn.wav");
+    private final java.applet.AudioClip clip = java.applet.Applet.newAudioClip(soundByte);
 
     @Override
     public void onMove(ChessBoard board, Move m, ChessPlayer playerColor) {
@@ -42,16 +41,10 @@ public class GUIGamePrinter extends JPanel implements GameObserver {
         repaint();
     }
 
-    Timer fudgeTimer;
     @Override
     public void onInit(ChessBoard board) {
         this.board = board;
-        fudgeTimer = new Timer(100, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                repaint();
-            }
-        });
+        Timer fudgeTimer = new Timer(100, e -> repaint());
         fudgeTimer.start();
     }
 
@@ -134,6 +127,7 @@ public class GUIGamePrinter extends JPanel implements GameObserver {
             squareHeight = Math.max(50, (getHeight() - (offset * 2)) / board.getBoard().length);
             squareWidth = Math.max(50, (getWidth() - (offset * 2)) / board.getBoard()[0].length);
             squareWidth = Math.min(squareHeight, squareWidth);
+            //noinspection SuspiciousNameCombination
             squareHeight = squareWidth;
 
             offsetWidth = (getWidth()/2) - (board.getBoard().length/2) * squareWidth;

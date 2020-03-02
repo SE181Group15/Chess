@@ -7,6 +7,7 @@ import com.chess.Players.ChessPlayer;
 
 import java.util.List;
 
+@SuppressWarnings({"EmptyMethod", "unused"})
 public interface GameObserver {
     void onMove(ChessBoard board, Move m, ChessPlayer player);
     void onInit(ChessBoard board);

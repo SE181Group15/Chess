@@ -2,7 +2,7 @@ package com.chess;
 
 import javax.swing.*;
 
-public class Main {
+class Main {
 
     public static void main(String[] args) {
         // Create frame and components

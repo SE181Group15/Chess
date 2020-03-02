@@ -3,8 +3,8 @@ package com.chess.Game;
 import java.security.InvalidParameterException;
 
 public class Coordinate {
-    protected int x;
-    protected int y;
+    private int x;
+    private int y;
 
     public Coordinate(String coordinate) {
         if (coordinate == null) {
@@ -18,7 +18,7 @@ public class Coordinate {
         }
         String[] coords = coordinate.split(", ");
         if (coords.length != 2) {
-            throw new InvalidParameterException("A coordinate must have 2 integers seperated by a \",\"");
+            throw new InvalidParameterException("A coordinate must have 2 integers separated by a \",\"");
         }
         this.x = Integer.parseInt(coords[0]);
         this.y = Integer.parseInt(coords[1]);

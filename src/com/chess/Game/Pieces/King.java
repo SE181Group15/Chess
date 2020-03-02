@@ -4,7 +4,6 @@ import com.chess.Game.ChessBoard;
 import com.chess.Game.Coordinate;
 import com.chess.Game.Move;
 import com.chess.Game.NamedColor;
-import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -12,14 +11,15 @@ import java.util.List;
 
 public class King extends Piece {
 
-    protected int HEURISTIC_VALUE = 10;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int HEURISTIC_VALUE = 10;
 
     public King(NamedColor color, int player) {
         super(color, player);
         rawImage = new ImageIcon(getClass().getResource("/com/chess/Assets/king.png")).getImage();
     }
 
-    public King(NamedColor color, int player, boolean hasMoved) {
+    private King(NamedColor color, int player, boolean hasMoved) {
         this(color, player);
         this.hasMoved = hasMoved;
     }
@@ -35,7 +35,7 @@ public class King extends Piece {
                     if (p == null || p.color != getColor()) {
                         moves.add(new Move(position, to, p == null ? null : to));
                     }
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
             }
@@ -83,16 +83,21 @@ public class King extends Piece {
 
                         if (isValid) {
                             Coordinate kingTo = new Coordinate(position.getX() + 2 * direction, position.getY());
-                            Coordinate rookTo = new Coordinate(kingTo.getX() - 1 * direction, position.getY());
+                            Coordinate rookTo = new Coordinate(kingTo.getX() - direction, position.getY());
                             moves.add(new Move(position, kingTo, null, new Move(rookCoord, rookTo, null)));
                         }
                     }
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
             }
         }
         return moves;
+    }
+
+    @Override
+    public int getHeuristicValue() {
+        return HEURISTIC_VALUE;
     }
 
     @Override

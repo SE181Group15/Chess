@@ -17,43 +17,45 @@ import java.awt.event.KeyEvent;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
+@SuppressWarnings({"SameReturnValue", "Duplicates"})
 public class GUISetup {
-    static List<Image> icons;
-    protected static JFrame frame;
+    private static List<Image> icons;
+    private static JFrame frame;
     public static Component currentComponent;
-    public static float titleFontSize = 40f;
-    static ImageIcon createOptionsImage;
-    static ImageIcon onePlayerOptionsImage;
-    static ImageIcon twoPlayerOptionsImage;
-    static ImageIcon clickPieceImage;
+    private static final float titleFontSize = 40f;
+    private static ImageIcon createOptionsImage;
+    private static ImageIcon onePlayerOptionsImage;
+    private static ImageIcon twoPlayerOptionsImage;
+    private static ImageIcon clickPieceImage;
 
-    static ActionListener easyAction = e -> {
+    private static final ActionListener easyAction = e -> {
         Settings.yourColor = Settings.p1Color;
         Settings.reverseOrder = false;
         currentComponent = switchToGame("PE");
     };
 
-    static ActionListener mediumAction = e -> {
+    private static final ActionListener mediumAction = e -> {
         Settings.yourColor = Settings.p1Color;
         Settings.reverseOrder = false;
         currentComponent = switchToGame("PM");
     };
 
-    static ActionListener hardAction = e -> {
+    private static final ActionListener hardAction = e -> {
         Settings.yourColor = Settings.p1Color;
         Settings.reverseOrder = false;
         currentComponent = switchToGame("PH");
     };
 
-    static ActionListener localAction = e -> {
+    private static final ActionListener localAction = e -> {
         Settings.yourColor = null;
         Settings.reverseOrder = false;
         currentComponent = switchToGame("PP");
     };
 
-    static ActionListener createAction = e -> {
+    private static final ActionListener createAction = e -> {
         Settings.yourColor = Settings.p1Color;
         Settings.reverseOrder = false;
         Settings.gameId = UUID.randomUUID().toString();
@@ -61,7 +63,7 @@ public class GUISetup {
         switchToWaiting();
     };
 
-    static ActionListener joinAction = e -> {
+    private static final ActionListener joinAction = e -> {
         Settings.yourColor = Settings.p2Color;
         Settings.reverseOrder = true;
         switchToJoinGame();
@@ -93,9 +95,7 @@ public class GUISetup {
 
         //Main Menu
         JMenuItem mainMenuMenuItem = new JMenuItem("Main Menu");
-        mainMenuMenuItem.addActionListener(e -> {
-            switchToMainMenu();
-        });
+        mainMenuMenuItem.addActionListener(e -> switchToMainMenu());
         //One Player Menu
         JMenu onePlayerMenu = new JMenu("1 Player");
         JMenuItem easyMenuItem = new JMenuItem("Easy");
@@ -135,9 +135,7 @@ public class GUISetup {
         JMenu helpMenu = new JMenu("Help");
 
         JMenuItem helpMenuItem = new JMenuItem("Help");
-        helpMenuItem.addActionListener(e -> {
-            switchToHelp();
-        });
+        helpMenuItem.addActionListener(e -> switchToHelp());
 
         JMenuItem rulesMenuItem = new JMenuItem("Rules");
         rulesMenuItem.addActionListener(e -> {
@@ -150,7 +148,7 @@ public class GUISetup {
                         ex.printStackTrace();
                     }
                 }
-            } catch (Exception ex2) {
+            } catch (Exception ignored) {
 
             }
         });
@@ -164,7 +162,7 @@ public class GUISetup {
         frame.setVisible(true);
     }
 
-    public ImageIcon scaleImage(ImageIcon icon, int w, int h)
+    private ImageIcon scaleImage(ImageIcon icon, int w, int h)
     {
         int nw = icon.getIconWidth();
         int nh = icon.getIconHeight();
@@ -184,7 +182,7 @@ public class GUISetup {
         return new ImageIcon(icon.getImage().getScaledInstance(nw, nh, Image.SCALE_DEFAULT));
     }
 
-    public static Component switchToGame(String key) {
+    private static Component switchToGame(String key) {
         ChessPlayer[] players = ChessPlayerFactory.buildPlayers(key);
         ChessGame game = new ChessGame(players[0], players[1]);
         for (ChessPlayer p : players) {
@@ -202,7 +200,7 @@ public class GUISetup {
         return mainMenuComponent;
     }
 
-    public static void switchToWaiting() {
+    private static void switchToWaiting() {
         Component waitingScreenComponent = buildWaitingScreenComponents();
         JDialog waiting = new JDialog();
         waiting.setMinimumSize(new Dimension(600, 300));
@@ -216,16 +214,15 @@ public class GUISetup {
         waiting.setVisible(true);
     }
 
-    public static Component switchTo(Component newComponent) {
+    private static void switchTo(Component newComponent) {
         frame.remove(currentComponent);
         frame.add(newComponent);
         frame.pack();
         frame.repaint();
         frame.setVisible(true);
         currentComponent = newComponent;
-        return newComponent;
     }
-    static Timer timer;
+    private static Timer timer;
 
     private static Component buildWaitingScreenComponents() {
         JPanel container = new JPanel(new GridBagLayout());
@@ -269,7 +266,7 @@ public class GUISetup {
         timer = new Timer(100, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (OnlineChessPlayer.getLatestLine(Settings.gameId).contains("Joined the Game")) {
+                if (Objects.requireNonNull(OnlineChessPlayer.getLatestLine(Settings.gameId)).contains("Joined the Game")) {
                     JDialog dialog = (JDialog) SwingUtilities.getRoot(container);
                     dialog.dispose();
                     currentComponent = switchToGame("LR");
@@ -283,7 +280,7 @@ public class GUISetup {
         return container;
     }
 
-    public static Component buildGameComponents(ChessGame game) {
+    private static Component buildGameComponents(ChessGame game) {
         JPanel gameFrame = new JPanel(new BorderLayout());
 
         GUIGamePrinter boardPrinter = new GUIGamePrinter();
@@ -298,19 +295,16 @@ public class GUISetup {
         return gameFrame;
     }
 
-    public static Component buildMainMenuComponents() {
+    private static Component buildMainMenuComponents() {
         JPanel mainMenu = new JPanel(new BorderLayout(100, 20));
         JPanel playTypes = new JPanel(new GridLayout(2, 1, 0, 20));
         JButton onePlayer = new JButton("1 Player");
         JButton twoPlayer = new JButton("2 Player");
-        onePlayer.setFont(new Font("Arial", Font.PLAIN, (int)(frame.getSize().width * .2)));
-        twoPlayer.setFont(new Font("Arial", Font.PLAIN, (int)(frame.getSize().width * .2)));
-        onePlayer.addActionListener(e -> {
-            switchToOnePlayer();
-        });
-        twoPlayer.addActionListener(e -> {
-            switchToTwoPlayer();
-        });
+        Font buttonFont = new Font("Arial", Font.PLAIN, (int)(frame.getSize().width * .2));
+        onePlayer.setFont(buttonFont);
+        twoPlayer.setFont(buttonFont);
+        onePlayer.addActionListener(e -> switchToOnePlayer());
+        twoPlayer.addActionListener(e -> switchToTwoPlayer());
         playTypes.add(onePlayer);
         playTypes.add(twoPlayer);
         playTypes.setMaximumSize(new Dimension((int) (frame.getSize().width * .5), (int)(frame.getSize().height * .8)));
@@ -324,22 +318,21 @@ public class GUISetup {
         return mainMenu;
     }
 
-    public static Component buildOnePlayerCompenents() {
+    private static Component buildOnePlayerComponents() {
         JPanel menu = new JPanel(new BorderLayout(100, 20));
         JPanel playTypes = new JPanel(new GridLayout(3, 1, 0, 20));
         JButton easy = new JButton("Easy");
         JButton medium = new JButton("Medium");
         JButton hard = new JButton("Hard");
         JButton back = new JButton("< Back");
-        easy.setFont(new Font("Arial", Font.PLAIN, (int)(frame.getSize().width * .2)));
-        medium.setFont(new Font("Arial", Font.PLAIN, (int)(frame.getSize().width * .2)));
-        hard.setFont(new Font("Arial", Font.PLAIN, (int)(frame.getSize().width * .2)));
+        Font buttonFont = new Font("Arial", Font.PLAIN, (int)(frame.getSize().width * .2));
+        easy.setFont(buttonFont);
+        medium.setFont(buttonFont);
+        hard.setFont(buttonFont);
         easy.addActionListener(easyAction);
         medium.addActionListener(mediumAction);
         hard.addActionListener(hardAction);
-        back.addActionListener(e -> {
-            currentComponent = switchToMainMenu();
-        });
+        back.addActionListener(e -> currentComponent = switchToMainMenu());
 
         playTypes.add(easy);
         playTypes.add(medium);
@@ -357,7 +350,7 @@ public class GUISetup {
         return menu;
     }
 
-    public static Component buildTwoPlayerCompenents() {
+    private static Component buildTwoPlayerComponents() {
         JPanel menu = new JPanel(new BorderLayout(100, 20));
         JPanel playTypes = new JPanel(new GridLayout(3, 1, 0, 20));
         JButton local = new JButton("Local");
@@ -370,9 +363,7 @@ public class GUISetup {
         local.addActionListener(localAction);
         create.addActionListener(createAction);
         join.addActionListener(joinAction);
-        back.addActionListener(e -> {
-            currentComponent = switchToMainMenu();
-        });
+        back.addActionListener(e -> currentComponent = switchToMainMenu());
 
         playTypes.add(local);
         playTypes.add(create);
@@ -391,7 +382,7 @@ public class GUISetup {
         return menu;
     }
 
-    public static Component buildJoinGameCompenents() {
+    private static Component buildJoinGameComponents() {
         JPanel container = new JPanel(new GridBagLayout());
         JPanel panel = new JPanel(new GridLayout(2, 1));
         JLabel label = new JLabel("Enter your Game Code Below:", SwingConstants.LEFT);
@@ -435,80 +426,78 @@ public class GUISetup {
         return container;
     }
 
-    public static Component buildHelpComponents() {
+    private static Component buildHelpComponents() {
         int rows = 4;
         JPanel container = new JPanel(new GridLayout(rows, 2));
         JTextArea[] helpText = new JTextArea[rows];
-        helpText[0] = new JTextArea("When playing by yourself you can play against the computer with dificulties of Easy, Medium, and Hard.");
+        helpText[0] = new JTextArea("When playing by yourself you can play against the computer with difficulties of Easy, Medium, and Hard.");
         helpText[1] = new JTextArea("When playing with two people you can play either Local with 1 computer or online with 2 computers.");
         helpText[2] = new JTextArea("If playing online 1 player should Create a game and share the code with the other who Joins the game.");
         helpText[3] = new JTextArea("On your turn you can move by clicking on one of your pieces and then clicking on a blue square that it can move to.");
 
-        for (int i = 0; i < helpText.length; i++) {
-            helpText[i].setLineWrap(true);
-            helpText[i].setWrapStyleWord(true);
-            helpText[i].setFont(helpText[i].getFont().deriveFont(20f));
-            helpText[i].setOpaque(false);
-            helpText[i].setBackground(new Color(0, 0, 0, 0));
-            helpText[i].setEditable(false);
-            helpText[i].setAlignmentY(50);
+        for (JTextArea jTextArea : helpText) {
+            jTextArea.setLineWrap(true);
+            jTextArea.setWrapStyleWord(true);
+            jTextArea.setFont(jTextArea.getFont().deriveFont(20f));
+            jTextArea.setOpaque(false);
+            jTextArea.setBackground(new Color(0, 0, 0, 0));
+            jTextArea.setEditable(false);
+            jTextArea.setAlignmentY(50);
         }
 
         container.add(helpText[0]);
         try {
             JLabel onePlayerImage = new JLabel(onePlayerOptionsImage);
             container.add(onePlayerImage);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         container.add(helpText[1]);
         try {
             JLabel twoPlayerImage = new JLabel(twoPlayerOptionsImage);
             container.add(twoPlayerImage);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         container.add(helpText[2]);
         try {
             JLabel createGameImage = new JLabel(createOptionsImage);
             container.add(createGameImage);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         container.add(helpText[3]);
         try {
             JLabel img = new JLabel(clickPieceImage);
             container.add(img);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         return container;
     }
 
-    public static Component buildSettingsComponents() {
+    private static Component buildSettingsComponents() {
         //TODO
         return null;
     }
 
-    public static Component buildAboutComponents() {
+    private static Component buildAboutComponents() {
         //TODO
         return null;
     }
 
-    public static Component switchToOnePlayer() {
-        Component components = buildOnePlayerCompenents();
+    private static void switchToOnePlayer() {
+        Component components = buildOnePlayerComponents();
         switchTo(components);
-        return components;
     }
 
-    public static Component switchToTwoPlayer() {
-        Component components = buildTwoPlayerCompenents();
+    private static void switchToTwoPlayer() {
+        Component components = buildTwoPlayerComponents();
         switchTo(components);
-        return components;
     }
 
-    public static void switchToJoinGame() {
-        Component components = buildJoinGameCompenents();
+    private static void switchToJoinGame() {
+        Component components = buildJoinGameComponents();
         JDialog join = new JDialog();
         join.setMinimumSize(new Dimension(600, 300));
         join.setIconImages(icons);
@@ -522,7 +511,7 @@ public class GUISetup {
         join.setVisible(true);
     }
 
-    public static void switchToHelp() {
+    private static void switchToHelp() {
         Component helpComponent = buildHelpComponents();
         JDialog help = new JDialog();
         help.setMinimumSize(new Dimension(400, 800));
@@ -536,12 +525,14 @@ public class GUISetup {
         help.setVisible(true);
     }
 
+    @SuppressWarnings("unused")
     public static Component switchToSettings() {
         Component settingsComponents = buildSettingsComponents();
         switchTo(settingsComponents);
         return settingsComponents;
     }
 
+    @SuppressWarnings("unused")
     public static Component switchToAbout() {
         Component aboutComponents = buildAboutComponents();
         switchTo(aboutComponents);

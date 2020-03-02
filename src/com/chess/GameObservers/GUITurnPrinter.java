@@ -8,23 +8,15 @@ import com.chess.Settings;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class GUITurnPrinter extends JPanel implements GameObserver {
-    ChessPlayer player;
-    GUIGamePrinter gamePrinter;
-    Timer fudgeTimer;
+    private ChessPlayer player;
+    private final GUIGamePrinter gamePrinter;
 
     public GUITurnPrinter(GUIGamePrinter gamePrinter) {
         this.gamePrinter = gamePrinter;
-        fudgeTimer = new Timer(100, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                repaint();
-            }
-        });
+        Timer fudgeTimer = new Timer(100, e -> repaint());
         fudgeTimer.start();
     }
 

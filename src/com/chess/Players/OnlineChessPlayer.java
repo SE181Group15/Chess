@@ -12,11 +12,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+@SuppressWarnings("UnusedReturnValue")
 public abstract class OnlineChessPlayer extends HumanChessPlayer {
-    protected String gameId = null;
-    protected static String baseURL = "https://www.cs.drexel.edu/~cdw77/checkers/";
+    private final String gameId;
+    private static final String baseURL = "https://www.cs.drexel.edu/~cdw77/checkers/";
 
-    public OnlineChessPlayer(NamedColor color, boolean requiresInput, String gameId) {
+    OnlineChessPlayer(NamedColor color, boolean requiresInput, String gameId) {
         super(color, requiresInput);
         this.gameId = gameId;
     }
@@ -49,7 +50,7 @@ public abstract class OnlineChessPlayer extends HumanChessPlayer {
         }
     }
 
-    protected boolean sendMove(Move move) {
+    boolean sendMove(Move move) {
         try {
             String data = "game_id=" + gameId + "&move=" + URLEncoder.encode(move.toString(), "UTF-8");
             String type = "application/x-www-form-urlencoded";
@@ -62,15 +63,16 @@ public abstract class OnlineChessPlayer extends HumanChessPlayer {
         }
     }
 
-    protected static String sendPost(URL u, String data, String type) throws IOException {
+    private static String sendPost(URL u, String data, String type) throws IOException {
         return sendRequest(u, data, type, "POST");
     }
 
+    @Deprecated
     protected static String sendGet(URL u, String data, String type) throws IOException {
         return sendRequest(u, data, type, "GET");
     }
 
-    protected static String sendRequest(URL u, String data, String type, String requestType) throws IOException {
+    private static String sendRequest(URL u, String data, String type, String requestType) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) u.openConnection();
         conn.setDoOutput(true);
         conn.setRequestMethod(requestType);
@@ -85,7 +87,7 @@ public abstract class OnlineChessPlayer extends HumanChessPlayer {
     }
 
     public static String getLatestLine(String gameId) {
-        String line = null;
+        String line;
         try {
             String type = "application/x-www-form-urlencoded";
             URL u = new URL(baseURL + "getLatestLine.php?game_id=" + gameId);
@@ -105,13 +107,14 @@ public abstract class OnlineChessPlayer extends HumanChessPlayer {
         }
     }
 
-    protected Pair<Integer,Move> getLatestMove() {
+    Pair<Integer, Move> getLatestMove() {
         try {
             String latestLine = getLatestLine(gameId);
+            assert latestLine != null;
             String[] data = latestLine.split(",,");
             Integer lineNum = Integer.parseInt(data[0]);
             Move move = new Move(data[1]);
-            return new Pair(lineNum, move);
+            return new Pair<>(lineNum, move);
         } catch (Exception e) {
             return null;
         }

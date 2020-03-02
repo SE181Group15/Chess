@@ -5,11 +5,12 @@ import com.chess.GameObservers.GUIGamePrinter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class ChessClickListener implements MouseListener {
-    protected GUIGamePrinter printer;
-    protected int MOUSE_MOVE_TOLLERANCE = 20;
-    protected int downX = 0;
-    protected int downY = 0;
+class ChessClickListener implements MouseListener {
+    private final GUIGamePrinter printer;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int MOUSE_MOVE_TOLERANCE = 20;
+    private int downX = 0;
+    private int downY = 0;
 
     public ChessClickListener(GUIGamePrinter printer) {
         this.printer = printer;
@@ -27,7 +28,7 @@ public class ChessClickListener implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (Math.abs(downX - e.getX()) < MOUSE_MOVE_TOLLERANCE && Math.abs(downY - e.getY()) < MOUSE_MOVE_TOLLERANCE) {
+        if (Math.abs(downX - e.getX()) < MOUSE_MOVE_TOLERANCE && Math.abs(downY - e.getY()) < MOUSE_MOVE_TOLERANCE) {
             printer.onClick(downX, downY);
         }
         downX = 0;
