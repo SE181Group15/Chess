@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pawn extends Piece {
-    protected int direction;
-    protected boolean canEnPassant;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int HEURISTIC_VALUE = 1;
+    private final int direction;
+    private boolean canEnPassant;
     public Pawn(NamedColor color, int player) {
         super(color, player);
         if (player == 1) {
@@ -23,13 +25,13 @@ public class Pawn extends Piece {
         rawImage = new ImageIcon(getClass().getResource("/com/chess/Assets/pawn.png")).getImage();
     }
 
-    public Pawn(NamedColor color, int player, boolean hasMoved, boolean canEnPassant) {
+    private Pawn(NamedColor color, int player, boolean hasMoved, boolean canEnPassant) {
         this(color, player);
         this.hasMoved = hasMoved;
         this.canEnPassant = canEnPassant;
     }
 
-    public boolean canEnPassant() { return canEnPassant; }
+    private boolean canEnPassant() { return canEnPassant; }
 
     @Override
     public List<Move> getMoves(Coordinate position, ChessBoard boardState, boolean forCheck) {
@@ -48,55 +50,57 @@ public class Pawn extends Piece {
                             if (boardState.getPiece(twoForward) == null) {
                                 moves.add(new Move(position, twoForward));
                             }
-                        } catch (Exception e) {
+                        } catch (Exception ignored) {
 
                         }
                     }
                 }
-            } catch (Exception e) {
+            } catch (Exception ignored) {
 
             }
         }
         try {
             Piece p = boardState.getPiece(leftCapture);
-            if (p != null && !p.getColor().equals(getColor())) {
+            if (p != null && !isSameColor(p)) {
                 moves.add(new Move(position, leftCapture, leftCapture));
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         try {
             Piece p = boardState.getPiece(rightCapture);
-            if (p != null && !p.getColor().equals(getColor())) {
+            if (p != null && !isSameColor(p)) {
                 moves.add(new Move(position, rightCapture, rightCapture));
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         // En Passant Left
+        //noinspection Duplicates
         try {
             Coordinate left = new Coordinate(position.getX() - 1, position.getY());
             Piece p = boardState.getPiece(left);
-            if (p != null && p.getColor() != getColor() && p instanceof Pawn) {
+            if (p != null && !isSameColor(p) && p instanceof Pawn) {
                 Pawn pawn = (Pawn) p;
                 if (pawn.canEnPassant()) {
                     moves.add(new Move(position, leftCapture, left));
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         // En Passant Right
+        //noinspection Duplicates
         try {
             Coordinate right = new Coordinate(position.getX() + 1, position.getY());
             Piece p = boardState.getPiece(right);
-            if (p != null && p.getColor() != getColor() && p instanceof Pawn) {
+            if (p != null && !isSameColor(p) && p instanceof Pawn) {
                 Pawn pawn = (Pawn) p;
                 if (pawn.canEnPassant()) {
                     moves.add(new Move(position, rightCapture, right));
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         return moves;
@@ -104,7 +108,7 @@ public class Pawn extends Piece {
 
     @Override
     public void onMove(Move m) {
-        if (hasMoved == false) {
+        if (!hasMoved) {
             // Check
             if (Math.abs(m.getFrom().getY() - m.getTo().getY()) == 2) {
                 canEnPassant = true;
@@ -113,6 +117,11 @@ public class Pawn extends Piece {
             canEnPassant = false;
         }
         super.onMove(m);
+    }
+
+    @Override
+    public int getHeuristicValue() {
+        return HEURISTIC_VALUE;
     }
 
     @Override

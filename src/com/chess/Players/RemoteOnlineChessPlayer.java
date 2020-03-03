@@ -8,8 +8,8 @@ import javafx.util.Pair;
 import java.util.List;
 
 public class RemoteOnlineChessPlayer extends OnlineChessPlayer {
-    protected boolean checking = false;
-    protected int latestLine = 2;
+    private boolean checking = false;
+    private int latestLine = 2;
     public RemoteOnlineChessPlayer(NamedColor color, String gameId) {
         super(color, false, gameId);
     }
@@ -25,7 +25,7 @@ public class RemoteOnlineChessPlayer extends OnlineChessPlayer {
                     if (latestMove.getKey() > latestLine) {
                         setNextMove(latestMove.getValue());
                     }
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
                 checking = false;

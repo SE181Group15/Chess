@@ -9,8 +9,10 @@ import java.util.List;
 
 public class RandomChessPlayer extends AIChessPlayer {
 
-    protected int MINDELAY = 100;
-    protected int MAXDELAY = 300;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int MINIMUM_DELAY = 100;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int MAXIMUM_DELAY = 300;
 
     public RandomChessPlayer(NamedColor color) {
         super(color);
@@ -28,7 +30,7 @@ public class RandomChessPlayer extends AIChessPlayer {
         if (captures.size() > 0) {
             acceptableMoves = captures;
         }
-        delay(MINDELAY, MAXDELAY);
+        delay(MINIMUM_DELAY, MAXIMUM_DELAY);
 
         return acceptableMoves.get((int) (Math.random() * (acceptableMoves.size())));
     }

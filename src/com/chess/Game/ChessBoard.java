@@ -4,13 +4,12 @@ import com.chess.Game.Pieces.*;
 import com.chess.Settings;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ChessBoard {
-    protected Piece[][] board = new Piece[8][8];
-    protected NamedColor p1Color;
-    protected NamedColor p2Color;
+    private Piece[][] board = new Piece[8][8];
+    private final NamedColor p1Color;
+    private final NamedColor p2Color;
 
     public ChessBoard(NamedColor p1Color, NamedColor p2Color) {
         this.p1Color = p1Color;
@@ -47,7 +46,7 @@ public class ChessBoard {
         board[7][6] = new Knight(otherPlayerColor, 1);
     }
 
-    protected ChessBoard(Piece[][] board, NamedColor p1Color, NamedColor p2Color) {
+    private ChessBoard(Piece[][] board, NamedColor p1Color, NamedColor p2Color) {
         this.board = board;
         this.p1Color = p1Color;
         this.p2Color = p2Color;
@@ -63,11 +62,12 @@ public class ChessBoard {
         return moves;
     }
 
+    @Deprecated
     public List<Move> getAllMoves(Coordinate from, boolean forCheck) {
         return getAllMoves(board[from.getY()][from.getX()].getColor(), from, forCheck);
     }
 
-    public List<Move> getAllMoves(NamedColor color, Coordinate from, boolean forCheck) {
+    private List<Move> getAllMoves(NamedColor color, Coordinate from, boolean forCheck) {
         Piece p = board[from.getY()][from.getX()];
         if (p == null || p.getColor().getColorCode() != color.getColorCode()) {
             return new ArrayList<>();
@@ -87,6 +87,7 @@ public class ChessBoard {
         return moves;
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isChecked(NamedColor player) {
         // Find king for that player
         Coordinate kingPosition = null;
@@ -94,7 +95,7 @@ public class ChessBoard {
             for (int y = 0; y < board[x].length; y++) {
                 Coordinate test = new Coordinate(x, y);
                 Piece p = getPiece(test);
-                if (p != null && p instanceof King && p.getColor().equals(player)) {
+                if (p instanceof King && p.getColor().equals(player)) {
                     kingPosition = test;
                     break;
                 }
@@ -148,21 +149,21 @@ public class ChessBoard {
 
     @Override
     public String toString() {
-        String rv = "";
-        for (int y = 0; y < board.length; y++) {
+        StringBuilder rv = new StringBuilder();
+        for (Piece[] row : board) {
             for (int x = 0; x < board.length; x++) {
-                if (board[y][x] == null) {
-                    rv += "X ";
+                if (row[x] == null) {
+                    rv.append("X ");
                 } else {
-                    rv += board[y][x] + " ";
+                    rv.append(row[x]).append(" ");
                 }
             }
-            rv += "\n";
+            rv.append("\n");
         }
-        return rv;
+        return rv.toString();
     }
 
-    @Override
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
     public ChessBoard clone() {
         Piece[][] newBoard = new Piece[board.length][board[0].length];
         for (int y = 0; y < board.length; y++) {
@@ -182,9 +183,9 @@ public class ChessBoard {
     //P1 is positive and P2 negative
     public int score() {
         int score = 0;
-        for (int y = 0; y < board.length; y++) {
+        for (Piece[] row : board) {
             for (int x = 0; x < board.length; x++) {
-                Piece p = board[y][x];
+                Piece p = row[x];
                 if (p != null) {
                     if (p.getColor().equals(p1Color)) {
                         score += p.getHeuristicValue();
@@ -201,7 +202,7 @@ public class ChessBoard {
         return board[c.getY()][c.getX()];
     }
 
-    public Piece setPosition(Coordinate c, Piece set) {
+    private Piece setPosition(Coordinate c, Piece set) {
         Piece p = board[c.getY()][c.getX()];
         board[c.getY()][c.getX()] = set;
         return p;

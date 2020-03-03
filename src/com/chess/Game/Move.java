@@ -3,10 +3,10 @@ package com.chess.Game;
 import java.security.InvalidParameterException;
 
 public class Move{
-    protected Coordinate from;
-    protected Coordinate to;
-    protected Coordinate capture;
-    protected Move otherMove;
+    private Coordinate from;
+    private Coordinate to;
+    Coordinate capture;
+    private Move otherMove;
 
     public Move(String move) {
         if (move == null) {
@@ -26,7 +26,7 @@ public class Move{
             this.from = new Coordinate(toFrom[0]);
             this.to = new Coordinate(toFrom[1]);
         } else {
-            throw new InvalidParameterException("A move must contain two coordinates in the form (x, y) seperated by \" -> \"");
+            throw new InvalidParameterException("A move must contain two coordinates in the form (x, y) separated by \" -> \"");
         }
     }
 

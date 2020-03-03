@@ -8,12 +8,13 @@ import com.chess.GameObservers.GameObserver;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("EmptyMethod")
 public abstract class ChessPlayer implements GameObserver {
-    protected NamedColor color;
-    protected Move nextMove;
-    protected boolean requiresInput;
+    final NamedColor color;
+    Move nextMove;
+    boolean requiresInput;
 
-    public ChessPlayer(NamedColor color, boolean requiresInput) {
+    ChessPlayer(NamedColor color, boolean requiresInput) {
         this.color = color;
         this.requiresInput = requiresInput;
     }
@@ -32,7 +33,7 @@ public abstract class ChessPlayer implements GameObserver {
         return nextMove;
     }
 
-    public void delay(int min, int max) {
+    void delay(int min, int max) {
         try {
             TimeUnit.MILLISECONDS.sleep((int) (Math.random() * (max - min) + min));
         } catch (InterruptedException e) {

@@ -8,20 +8,18 @@ import java.util.List;
 
 public abstract class AIChessPlayer extends ChessPlayer {
 
-    public AIChessPlayer(NamedColor color) {
+    AIChessPlayer(NamedColor color) {
         super(color, false);
     }
 
     @Override
     public void requestMove(ChessBoard board, List<Move> moves) {
         super.requestMove(board, moves);
-        Thread thread = new Thread(() -> {
-            nextMove = pickMove(board, moves);
-        });
+        Thread thread = new Thread(() -> nextMove = pickMove(board, moves));
         thread.start();
     }
 
-    public abstract Move pickMove(ChessBoard board, List<Move> moves) ;
+    protected abstract Move pickMove(ChessBoard board, List<Move> moves) ;
 
     @Override
     public void invalidMove(Move m) {

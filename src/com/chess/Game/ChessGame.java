@@ -11,11 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChessGame {
-    ChessBoard board;
-    ChessPlayer[] players = new ChessPlayer[2];
-    List<GameObserver> observers = new ArrayList<>();
-    Timer timer;
+    private final ChessBoard board;
+    private final ChessPlayer[] players = new ChessPlayer[2];
+    private final List<GameObserver> observers = new ArrayList<>();
+    private Timer timer;
 
+    @SuppressWarnings("unused")
     public ChessGame() {
         this(new RandomChessPlayer(NamedColor.red), new RandomChessPlayer(NamedColor.black));
     }
@@ -38,7 +39,6 @@ public class ChessGame {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 // Check for GameOver and stop loop
-
                 ChessPlayer p = players[player];
                 Move m = p.getNextMove();
                 if (m != null) {
@@ -55,21 +55,19 @@ public class ChessGame {
                             NamedColor defaultWinner = players[Math.abs(player - 1)].getColor();
                             observers.forEach(o -> o.onGameOver(defaultWinner));
                             stopClock();
-                            return;
                         }
                     }
                 }
             }
 
-            public List<Move> requestNextPlayer() {
+            List<Move> requestNextPlayer() {
                 List<Move> moves;
                 player = (player + 1) % players.length;
                 ChessPlayer p = players[player];
                 moves = board.getAllMoves(p.getColor(), false);
                 if (moves.size() > 0) {
                     p.requestMove(board, moves);
-                    ChessPlayer p2 = p;
-                    observers.forEach(o -> o.onMoveRequest(board, moves, p2));
+                    observers.forEach(o -> o.onMoveRequest(board, moves, p));
                     return moves;
                 }
                 return null;
@@ -78,12 +76,13 @@ public class ChessGame {
         timer.start();
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public boolean attachObserver(GameObserver o) {
         o.onInit(board);
         return observers.add(o);
     }
 
-    public void stopClock() {
+    private void stopClock() {
         timer.stop();
     }
 }

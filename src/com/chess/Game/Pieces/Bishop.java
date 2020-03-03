@@ -5,24 +5,20 @@ import com.chess.Game.Coordinate;
 import com.chess.Game.Move;
 import com.chess.Game.NamedColor;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Bishop extends Piece {
-    protected int HEURISTIC_VALUE = 7;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int HEURISTIC_VALUE = 7;
 
     public Bishop(NamedColor color, int player) {
         super(color, player);
         rawImage = new ImageIcon(getClass().getResource("/com/chess/Assets/bishop.png")).getImage();
     }
 
-    public Bishop(NamedColor color, int player, boolean hasMoved) {
+    private Bishop(NamedColor color, int player, boolean hasMoved) {
         this(color, player);
         this.hasMoved = hasMoved;
     }
@@ -38,7 +34,7 @@ public class Bishop extends Piece {
                     while (true) {
                         Coordinate to = new Coordinate(x, y);
                         Piece p = boardState.getPiece(to);
-                        if (p != null && p.color == getColor()) {
+                        if (isSameColor(p)) {
                             break;
                         }
                         if (!forCheck || p != null) {
@@ -50,12 +46,17 @@ public class Bishop extends Piece {
                         x+=xDelta;
                         y+=yDelta;
                     }
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
             }
         }
         return moves;
+    }
+
+    @Override
+    public int getHeuristicValue() {
+        return HEURISTIC_VALUE;
     }
 
     @Override

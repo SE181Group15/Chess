@@ -6,20 +6,20 @@ import com.chess.Game.Move;
 import com.chess.Game.NamedColor;
 
 import javax.swing.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Rook extends Piece {
 
-    protected int HEURISTIC_VALUE = 7;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int HEURISTIC_VALUE = 7;
 
     public Rook(NamedColor color, int player) {
         super(color, player);
         rawImage = new ImageIcon(getClass().getResource("/com/chess/Assets/rook.png")).getImage();
     }
 
-    public Rook(NamedColor color, int player, boolean hasMoved) {
+    private Rook(NamedColor color, int player, boolean hasMoved) {
         this(color, player);
         this.hasMoved = hasMoved;
     }
@@ -31,67 +31,63 @@ public class Rook extends Piece {
         try {
             for (int x = position.getX() + 1; x < boardState.getBoard().length; x++) {
                 Coordinate to = new Coordinate(x, position.getY());
-                Piece p = boardState.getPiece(to);
-                if (p != null && p.color == getColor()) {
-                    break;
-                }
-                moves.add(new Move(position, to, p == null ? null : to));
-                if (p != null) {
+                if (addAndCheckIsLastMove(position, boardState, to, moves)) {
                     break;
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         // Left
         try {
             for (int x = position.getX() - 1; x >= 0; x--) {
                 Coordinate to = new Coordinate(x, position.getY());
-                Piece p = boardState.getPiece(to);
-                if (p != null && p.color == getColor()) {
-                    break;
-                }
-                moves.add(new Move(position, to, p == null ? null : to));
-                if (p != null) {
+                if (addAndCheckIsLastMove(position, boardState, to, moves)) {
                     break;
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         // Down
         try {
             for (int y = position.getY() + 1; y < boardState.getBoard().length; y++) {
                 Coordinate to = new Coordinate(position.getX(), y);
-                Piece p = boardState.getPiece(to);
-                if (p != null && p.color == getColor()) {
-                    break;
-                }
-                moves.add(new Move(position, to, p == null ? null : to));
-                if (p != null) {
+                if (addAndCheckIsLastMove(position, boardState, to, moves)) {
                     break;
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         // Up
         try {
             for (int y = position.getY() - 1; y >= 0; y--) {
                 Coordinate to = new Coordinate(position.getX(), y);
-                Piece p = boardState.getPiece(to);
-                if (p != null && p.color == getColor()) {
-                    break;
-                }
-                moves.add(new Move(position, to, p == null ? null : to));
-                if (p != null) {
+                if (addAndCheckIsLastMove(position, boardState, to, moves)) {
                     break;
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         return moves;
+    }
+
+    private boolean addAndCheckIsLastMove(Coordinate position, ChessBoard boardState, Coordinate to, List<Move> moves) {
+        Piece capture = boardState.getPiece(to);
+        if (isSameColor(capture)) {
+            return true;
+        }
+        moves.add(new Move(position, to, capture == null ? null : to));
+        return capture != null;
+    }
+
+
+
+    @Override
+    public int getHeuristicValue() {
+        return HEURISTIC_VALUE;
     }
 
     @Override

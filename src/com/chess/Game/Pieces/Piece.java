@@ -11,19 +11,19 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 public abstract class Piece {
-    protected NamedColor color;
-    protected int player;
-    protected final int HEURISTIC_VALUE = 1;
-    protected boolean hasMoved;
-    protected Image rawImage;
+    final NamedColor color;
+    final int player;
+    boolean hasMoved;
+    Image rawImage;
 
-    public Piece(NamedColor color, int player) {
+    Piece(NamedColor color, int player) {
         this.color = color;
         this.player = player;
         this.hasMoved = false;
 
     }
 
+    @SuppressWarnings("unused")
     protected Piece(NamedColor color, int player, boolean hasMoved) {
         this.color = color;
         this.player = player;
@@ -36,17 +36,18 @@ public abstract class Piece {
         this.hasMoved = true;
     }
 
-    public boolean hasMoved() { return this.hasMoved; }
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    boolean hasMoved() { return this.hasMoved; }
 
     public NamedColor getColor() {
         return color;
     }
 
-    public int getHeuristicValue() { return HEURISTIC_VALUE; }
+    public abstract int getHeuristicValue();
 
     public Image getImage(Color highlightColor, int height, int width) {
         // Resize
-        Image img = rawImage.getScaledInstance(height, width, Image.SCALE_AREA_AVERAGING);
+        Image img = rawImage.getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING);
         // wait for image to be ready
         MediaTracker tracker = new MediaTracker(new java.awt.Container());
         tracker.addImage(img, 0);
@@ -99,15 +100,19 @@ public abstract class Piece {
         }
 
         // Create a buffered image with transparency
-        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage bImage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 
         // Draw the image on to the buffered image
-        Graphics2D bGr = bimage.createGraphics();
+        Graphics2D bGr = bImage.createGraphics();
         bGr.drawImage(img, 0, 0, null);
         bGr.dispose();
 
         // Return the buffered image
-        return bimage;
+        return bImage;
+    }
+
+    boolean isSameColor(Piece p) {
+        return p != null && p.color == getColor();
     }
 
     @Override
