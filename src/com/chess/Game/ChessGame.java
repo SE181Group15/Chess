@@ -56,6 +56,9 @@ public class ChessGame {
                             observers.forEach(o -> o.onGameOver(defaultWinner));
                             stopClock();
                         }
+                        else if (board.isChecked(players[player].getColor())) {
+                            observers.forEach(o -> o.onCheck(players[player].getColor()));
+                        }
                     }
                 }
             }
