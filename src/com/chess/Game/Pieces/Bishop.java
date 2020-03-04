@@ -60,6 +60,11 @@ public class Bishop extends Piece {
     }
 
     @Override
+    protected String getName() {
+        return "Bishop";
+    }
+
+    @Override
     public Piece clone() {
         return new Bishop(color, player, hasMoved);
     }

@@ -103,7 +103,19 @@ public class Pawn extends Piece {
         } catch (Exception ignored) {
 
         }
-        return moves;
+
+        // Add promoteTo to any promotion moves
+        List<Move> promotedMoves = new ArrayList<>();
+        for (Move m: moves) {
+            int nextY = m.getTo().getY() + direction;
+            if (nextY < 0 || nextY == 8) {
+                // TODO add all of the piece types and then add menu to the GUI
+                promotedMoves.add(m.withPromotion(new Queen(color, player)));
+            } else {
+                promotedMoves.add(m);
+            }
+        }
+        return promotedMoves;
     }
 
     @Override
@@ -122,6 +134,11 @@ public class Pawn extends Piece {
     @Override
     public int getHeuristicValue() {
         return HEURISTIC_VALUE;
+    }
+
+    @Override
+    protected String getName() {
+        return "Pawn";
     }
 
     @Override

@@ -61,6 +61,11 @@ public class CheckersPiece extends Piece {
     }
 
     @Override
+    protected String getName() {
+        return "Checkers Piece";
+    }
+
+    @Override
     public Piece clone() {
         return new CheckersPiece(color, player, hasMoved);
     }

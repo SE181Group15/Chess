@@ -91,6 +91,11 @@ public class Rook extends Piece {
     }
 
     @Override
+    protected String getName() {
+        return "Rook";
+    }
+
+    @Override
     public Piece clone() {
         return new Rook(color, player, hasMoved);
     }

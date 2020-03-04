@@ -51,6 +51,11 @@ public class Knight extends Piece {
     }
 
     @Override
+    protected String getName() {
+        return "Knight";
+    }
+
+    @Override
     public Piece clone() {
         return new Knight(color, player, hasMoved);
     }
