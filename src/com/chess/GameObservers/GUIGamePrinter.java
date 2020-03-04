@@ -177,7 +177,7 @@ public class GUIGamePrinter extends JPanel implements GameObserver {
         }
 
         if (this.onGameOverCalled) {
-            String message = winner.getName() + " Wins! ";
+            String message = "Checkmate! "+ winner.getName() + " Wins! ";
             g.setColor(Settings.lightBoardColor);
             g.fillRect(squareWidth * 8 / 2 - (int) (2.7 * radius) + offsetWidth, (squareHeight * 8 / 2) - radius, radius * message.length() / 2, (radius * 5) / 4);
             g.setFont(new Font("TimesRoman", Font.BOLD,  radius));
