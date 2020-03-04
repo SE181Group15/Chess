@@ -11,8 +11,8 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 public abstract class Piece {
-    final NamedColor color;
-    final int player;
+    NamedColor color;
+    int player;
     boolean hasMoved;
     Image rawImage;
 
@@ -20,7 +20,6 @@ public abstract class Piece {
         this.color = color;
         this.player = player;
         this.hasMoved = false;
-
     }
 
     @SuppressWarnings("unused")
@@ -117,9 +116,21 @@ public abstract class Piece {
 
     @Override
     public String toString() {
-        return color.getName().substring(0, 1);
+        return getName();
     }
+
+    protected abstract String getName();
 
     @Override
     public abstract Piece clone();
+
+    public int getPlayer() { return this.player; }
+
+    public void setPlayer(int player) {
+        this.player = player;
+    }
+
+    public void setColor(NamedColor color) {
+        this.color = color;
+    }
 }

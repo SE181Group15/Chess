@@ -38,6 +38,11 @@ public class Queen extends Piece {
     }
 
     @Override
+    protected String getName() {
+        return "Queen";
+    }
+
+    @Override
     public Piece clone() {
         return new Queen(color, player, hasMoved);
     }

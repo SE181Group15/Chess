@@ -135,6 +135,11 @@ public class ChessBoard {
         if (move.isCapture()) {
             setPosition(move.capture, null);
         }
+        NamedColor color = p.getColor();
+        int player = p.getPlayer();
+        p = move.getPromoteTo() == null ? p : move.getPromoteTo();
+        p.setColor(color);
+        p.setPlayer(player);
         setPosition(move.getTo(), p);
         p.onMove(move);
         if (move.getOtherMove() != null) {

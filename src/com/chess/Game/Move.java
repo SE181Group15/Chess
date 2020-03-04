@@ -1,5 +1,8 @@
 package com.chess.Game;
 
+import com.chess.Game.Pieces.Piece;
+import com.chess.Game.Pieces.PieceFactory;
+
 import java.security.InvalidParameterException;
 
 public class Move{
@@ -7,10 +10,27 @@ public class Move{
     private Coordinate to;
     Coordinate capture;
     private Move otherMove;
+    private Piece promoteTo;
 
     public Move(String move) {
         if (move == null) {
             throw new InvalidParameterException("move cannot be null");
+        }
+        String[] byPromote = move.split(":\\+");
+        if (byPromote.length > 1) {
+            String[] byOther = byPromote[1].split(":-");
+            this.promoteTo = PieceFactory.buildPiece(byOther[0]);
+            if (byOther.length > 1) {
+                this.otherMove = new Move(byOther[1]);
+            }
+            move = byPromote[0];
+        } else {
+            String[] byOther = byPromote[0].split(":-");
+            if (byOther.length > 1) {
+                this.otherMove = new Move(byOther[1]);
+                System.out.println(byOther[1]);
+            }
+            move = byOther[0];
         }
         if (move.startsWith("Capture ")) {
             String cap = move.split(":")[0].substring(8);
@@ -32,9 +52,6 @@ public class Move{
 
     public Move(Coordinate from, Coordinate to) {
         this(from, to, null, null);
-        this.from = from;
-        this.to = to;
-        this.capture = null;
     }
 
     public Move(Coordinate from, Coordinate to, Coordinate capture) {
@@ -42,10 +59,15 @@ public class Move{
     }
 
     public Move(Coordinate from, Coordinate to, Coordinate capture, Move otherMove) {
+        this(from, to, capture, otherMove, null);
+    }
+
+    private Move(Coordinate from, Coordinate to, Coordinate capture, Move otherMove, Piece promoteTo) {
         this.from = from;
         this.to = to;
         this.capture = capture;
         this.otherMove = otherMove;
+        this.promoteTo = promoteTo;
     }
 
     public Coordinate getFrom() {
@@ -62,9 +84,13 @@ public class Move{
 
     public boolean isCapture() { return capture != null; }
 
+    public Piece getPromoteTo() {
+        return this.promoteTo;
+    }
+
     @Override
     public String toString() {
-        return (isCapture() ? "Capture " + capture + ": " : "Move: ") + from + " -> " + to;
+        return (isCapture() ? "Capture " + capture + ": " : "Move: ") + from + " -> " + to + (promoteTo != null ? ":+" + promoteTo.toString() : "") + (otherMove != null ? ":-" + otherMove.toString() : "");
     }
 
     @Override
@@ -77,10 +103,14 @@ public class Move{
     }
 
     public Move flip() {
-        return new Move(getFrom().flip(), getTo().flip(), capture == null ? null : capture.flip());
+        return new Move(getFrom().flip(), getTo().flip(), capture == null ? null : capture.flip(), otherMove == null ? null : otherMove.flip(), promoteTo);
     }
 
     public Move getOtherMove() {
         return otherMove;
+    }
+
+    public Move withPromotion(Piece promoteTo) {
+        return new Move(getFrom(), getTo(), getCapture(), getOtherMove(), promoteTo);
     }
 }

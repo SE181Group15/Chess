@@ -101,6 +101,11 @@ public class King extends Piece {
     }
 
     @Override
+    protected String getName() {
+        return "King";
+    }
+
+    @Override
     public Piece clone() {
         return new King(color, player, hasMoved);
     }
