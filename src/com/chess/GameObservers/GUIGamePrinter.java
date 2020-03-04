@@ -16,6 +16,7 @@ public class GUIGamePrinter extends JPanel implements GameObserver {
     private ChessBoard board;
     public static final int borderWidth = 20;
     private boolean onGameOverCalled = false;
+    private long lastCheckCalled = 0;
     private NamedColor winner = null;
     private List<Move> moveOptions = new ArrayList<>();
     private ChessPlayer player;
@@ -74,7 +75,8 @@ public class GUIGamePrinter extends JPanel implements GameObserver {
 
     @Override
     public void onCheck(NamedColor inCheck) {
-
+        this.lastCheckCalled = System.nanoTime();
+        repaint();
     }
 
     @Override
@@ -177,11 +179,20 @@ public class GUIGamePrinter extends JPanel implements GameObserver {
         }
 
         if (this.onGameOverCalled) {
-            String message = winner.getName() + " Wins! ";
+            String message = "Checkmate! "+ winner.getName() + " Wins! ";
             g.setColor(Settings.lightBoardColor);
             g.fillRect(squareWidth * 8 / 2 - (int) (2.7 * radius) + offsetWidth, (squareHeight * 8 / 2) - radius, radius * message.length() / 2, (radius * 5) / 4);
             g.setFont(new Font("TimesRoman", Font.BOLD,  radius));
             g.setColor(winner);
+            g.drawString(message, squareWidth * 8 / 2 - (int) (2.7 * radius) + offsetWidth, squareHeight * 8 / 2);
+        }
+
+        if ((System.nanoTime() - this.lastCheckCalled) < 4000000000l){
+            String message = "Check!";
+            g.setColor(Settings.lightBoardColor);
+            g.fillRect(squareWidth * 8 / 2 - (int) (2.7 * radius) + offsetWidth, (squareHeight * 8 / 2) - radius, radius * message.length() / 2, (radius * 5) / 4);
+            g.setFont(new Font("TimesRoman", Font.BOLD,  radius));
+            g.setColor(Settings.highlightColor);
             g.drawString(message, squareWidth * 8 / 2 - (int) (2.7 * radius) + offsetWidth, squareHeight * 8 / 2);
         }
     }
