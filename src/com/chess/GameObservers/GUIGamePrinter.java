@@ -17,6 +17,7 @@ public class GUIGamePrinter extends JPanel implements GameObserver {
     public static final int borderWidth = 20;
     private boolean onGameOverCalled = false;
     private long lastCheckCalled = 0;
+    private NamedColor lastCheckColor;
     private NamedColor winner = null;
     private List<Move> moveOptions = new ArrayList<>();
     private ChessPlayer player;
@@ -31,6 +32,9 @@ public class GUIGamePrinter extends JPanel implements GameObserver {
     private int offsetHeight;
     private final URL soundByte = getClass().getResource("/com/chess/Assets/nextTurn.wav");
     private final java.applet.AudioClip clip = java.applet.Applet.newAudioClip(soundByte);
+    private boolean onResignCalled;
+    private NamedColor resigner;
+    private boolean onDrawCalled;
 
     @Override
     public void onMove(ChessBoard board, Move m, ChessPlayer playerColor) {
@@ -76,24 +80,29 @@ public class GUIGamePrinter extends JPanel implements GameObserver {
     @Override
     public void onCheck(NamedColor inCheck) {
         this.lastCheckCalled = System.nanoTime();
+        this.lastCheckColor = inCheck;
         repaint();
     }
 
     @Override
     public void onResign(NamedColor resigner) {
-
+        this.onResignCalled = true;
+        this.resigner = resigner;
+        repaint();
     }
 
     @Override
     public void onDraw() {
-
+        this.onDrawCalled = true;
+        repaint();
     }
 
     public void onClick(int x, int y) {
-        if (onGameOverCalled) {
+        if (onGameOverCalled || onResignCalled || onDrawCalled) {
             GUISetup.currentComponent = GUISetup.switchToMainMenu();
             return;
         }
+        this.lastCheckCalled = 0;
         if (lookingForMove) {
             Coordinate coord = new Coordinate((x - offsetWidth) / squareWidth, (y - offsetHeight) / squareHeight);
             Move move = null;
@@ -179,22 +188,33 @@ public class GUIGamePrinter extends JPanel implements GameObserver {
         }
 
         if (this.onGameOverCalled) {
-            String message = "Checkmate! "+ winner.getName() + " Wins! ";
-            g.setColor(Settings.lightBoardColor);
-            g.fillRect(squareWidth * 8 / 2 - (int) (2.7 * radius) + offsetWidth, (squareHeight * 8 / 2) - radius, radius * message.length() / 2, (radius * 5) / 4);
-            g.setFont(new Font("TimesRoman", Font.BOLD,  radius));
-            g.setColor(winner);
-            g.drawString(message, squareWidth * 8 / 2 - (int) (2.7 * radius) + offsetWidth, squareHeight * 8 / 2);
+            String message = winner.getName() + " Wins! ";
+            alert(g, message, this.winner, radius);
         }
 
-        if ((System.nanoTime() - this.lastCheckCalled) < 4000000000l){
+        if ((System.nanoTime() - this.lastCheckCalled) < 4000000000L){
             String message = "Check!";
-            g.setColor(Settings.lightBoardColor);
-            g.fillRect(squareWidth * 8 / 2 - (int) (2.7 * radius) + offsetWidth, (squareHeight * 8 / 2) - radius, radius * message.length() / 2, (radius * 5) / 4);
-            g.setFont(new Font("TimesRoman", Font.BOLD,  radius));
-            g.setColor(Settings.highlightColor);
-            g.drawString(message, squareWidth * 8 / 2 - (int) (2.7 * radius) + offsetWidth, squareHeight * 8 / 2);
+            alert(g, message, this.lastCheckColor, radius);
         }
+
+        if (this.onResignCalled) {
+            String message = this.resigner.getName() + " Resigned";
+            alert(g, message, this.resigner, radius);
+        }
+
+        if (this.onDrawCalled) {
+            alert(g, "Draw!", Settings.highlightColor, radius);
+        }
+    }
+
+    private void alert(Graphics g, String message, Color messageColor, int radius) {
+        g.setColor(Settings.selectColor);
+        int messageWidth = radius * message.length() / 2 + (int) Math.round(3.5 * message.length());
+        int startX = squareWidth * 8 / 2 -  (messageWidth / 2) + offsetWidth;
+        g.fillRect(startX, (squareHeight * 8 / 2) - radius, messageWidth, (radius * 5) / 4);
+        g.setFont(new Font("TimesRoman", Font.BOLD,  radius));
+        g.setColor(messageColor);
+        g.drawString(message, startX, squareHeight * 8 / 2);
     }
 
     @Override

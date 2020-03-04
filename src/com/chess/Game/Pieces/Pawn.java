@@ -33,6 +33,7 @@ public class Pawn extends Piece {
 
     private boolean canEnPassant() { return canEnPassant; }
 
+    @SuppressWarnings("Duplicates")
     @Override
     public List<Move> getMoves(Coordinate position, ChessBoard boardState, boolean forCheck) {
         canEnPassant = false;
