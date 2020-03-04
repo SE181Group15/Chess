@@ -35,6 +35,7 @@ public class GUIGamePrinter extends JPanel implements GameObserver {
     private boolean onResignCalled;
     private NamedColor resigner;
     private boolean onDrawCalled;
+    private List<Move> menuMoves;
 
     @Override
     public void onMove(ChessBoard board, Move m, ChessPlayer playerColor) {
@@ -104,27 +105,49 @@ public class GUIGamePrinter extends JPanel implements GameObserver {
         }
         this.lastCheckCalled = 0;
         if (lookingForMove) {
-            Coordinate coord = new Coordinate((x - offsetWidth) / squareWidth, (y - offsetHeight) / squareHeight);
-            Move move = null;
-            for (Move m: moveOptions) {
-                if (m.getFrom().equals(from) && m.getTo().equals(coord)) {
-                    move = m;
-                }
-            }
-            if (coord.equals(from)) {
-                moveOptions = new ArrayList<>();
-                from = null;
-            } else if (moveOptions.size() == 0 || move == null) {
-                moveOptions = new ArrayList<>();
-                from = coord;
-                for (Move m: validMoves) {
-                    if (m.getFrom().equals(coord)) {
-                        moveOptions.add(m);
+            if (this.menuMoves != null && this.menuMoves.size() > 0) {
+                // if a piece from the menu is selected
+                int startX = squareWidth * 8 / 2 -  ((menuMoves.size() * (squareWidth + 10)) / 2) + offsetWidth;
+                if (x > startX - 5 && x < startX + squareWidth * (this.menuMoves.size()) + 10 * this.menuMoves.size()) {
+                    if (y > (squareHeight * 8 / 2) - squareHeight && y < (squareHeight * 8 / 2)) {
+                        int index = (x - startX) / squareWidth;
+                        player.setNextMove(menuMoves.get(index));
+                        from = null;
+                        this.menuMoves = null;
                     }
                 }
             } else {
-                player.setNextMove(move);
-                from = move.getTo();
+                // Handle either piece or move selection
+                Coordinate coord = new Coordinate((x - offsetWidth) / squareWidth, (y - offsetHeight) / squareHeight);
+                List<Move> moves = new ArrayList<>();
+                for (Move m: moveOptions) {
+                    if (m.getFrom().equals(from) && m.getTo().equals(coord)) {
+                        moves.add(m);
+                    }
+                }
+                if (coord.equals(from)) {
+                    // Handle clearing piece selection
+                    moveOptions = new ArrayList<>();
+                    from = null;
+                } else if (moveOptions.size() == 0 || moves.size() == 0) {
+                    // Handle Piece selection
+                    moveOptions = new ArrayList<>();
+                    from = coord;
+                    for (Move m: validMoves) {
+                        if (m.getFrom().equals(coord)) {
+                            moveOptions.add(m);
+                        }
+                    }
+                } else {
+                    // Handle Move selection
+                    if (moves.size() == 1) {
+                        player.setNextMove(moves.get(0));
+                        from = moves.get(0).getTo();
+                    } else {
+                        // If there are multiple moves to that spot we show the promotion options menu
+                        this.menuMoves = moves;
+                    }
+                }
             }
             repaint();
         }
@@ -204,6 +227,33 @@ public class GUIGamePrinter extends JPanel implements GameObserver {
 
         if (this.onDrawCalled) {
             alert(g, "Draw!", Settings.highlightColor, radius);
+        }
+
+        if (this.menuMoves != null && this.menuMoves.size() > 0) {
+            // Display Menu of promotion options
+            int padding = 10;
+            int startX = squareWidth * 8 / 2 -  ((menuMoves.size() * (squareWidth + padding)) / 2) + offsetWidth;
+            String header = "Promote";
+            int messageWidth = radius * header.length() / 2 + (int) Math.round(3.5 * header.length());
+            // Draw Menu Bounding Box Padding
+            g.setColor(Settings.highlightColor);
+            g.fillRect(startX - padding - padding/2, (squareHeight * 8 / 2) - 2 * radius - padding/2, (squareWidth + padding) * this.menuMoves.size() + 2*padding,squareHeight * 2 + padding);
+            // Draw Menu Bounding Box
+            g.setColor(Settings.darkBoardColor);
+            g.fillRect(startX - padding, (squareHeight * 8 / 2) - 2 * radius, (squareWidth + padding) * this.menuMoves.size() + padding,squareHeight * 2);
+            // Draw Header Text
+            g.setFont(new Font("TimesRoman", Font.BOLD,  radius));
+            g.setColor(Settings.highlightColor);
+            g.drawString(header, (squareWidth * 8 / 2) - (messageWidth / 2) + offsetWidth, squareHeight * 8 / 2 - radius - padding);
+            // Draw Options Bounding Box
+            g.setColor(Settings.lightBoardColor);
+            g.fillRect(startX - padding/2, (squareHeight * 8 / 2) - radius, (squareWidth + padding) * this.menuMoves.size(),squareHeight);
+            // Draw Options
+            for (int i = 0; i < menuMoves.size(); i++) {
+                Move m = menuMoves.get(i);
+                Image img = m.getPromoteTo().getImage(Settings.highlightColor, squareHeight, squareWidth);
+                g.drawImage(img, startX + squareWidth * i + padding * i + 1, (squareHeight * 8 / 2) - radius, null);
+            }
         }
     }
 

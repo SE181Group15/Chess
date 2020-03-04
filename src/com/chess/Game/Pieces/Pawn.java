@@ -110,8 +110,15 @@ public class Pawn extends Piece {
         for (Move m: moves) {
             int nextY = m.getTo().getY() + direction;
             if (nextY < 0 || nextY == 8) {
-                // TODO add all of the piece types and then add menu to the GUI
-                promotedMoves.add(m.withPromotion(new Queen(color, player)));
+                Piece[] options = PieceFactory.allPieces1;
+                if (player == 2) {
+                    options = PieceFactory.allPieces2;
+                }
+                for (Piece promoteTo: options) {
+                    if (!promoteTo.getName().equals(PieceFactory.king1.getName())
+                    && !promoteTo.getName().equals(PieceFactory.pawn1.getName()))
+                        promotedMoves.add(m.withPromotion(promoteTo));
+                }
             } else {
                 promotedMoves.add(m);
             }

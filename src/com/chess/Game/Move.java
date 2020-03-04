@@ -12,22 +12,22 @@ public class Move{
     private Move otherMove;
     private Piece promoteTo;
 
-    public Move(String move) {
+    public Move(String move, int player) {
         if (move == null) {
             throw new InvalidParameterException("move cannot be null");
         }
         String[] byPromote = move.split(":\\+");
         if (byPromote.length > 1) {
             String[] byOther = byPromote[1].split(":-");
-            this.promoteTo = PieceFactory.buildPiece(byOther[0]);
+            this.promoteTo = PieceFactory.buildPiece(byOther[0], player);
             if (byOther.length > 1) {
-                this.otherMove = new Move(byOther[1]);
+                this.otherMove = new Move(byOther[1], player);
             }
             move = byPromote[0];
         } else {
             String[] byOther = byPromote[0].split(":-");
             if (byOther.length > 1) {
-                this.otherMove = new Move(byOther[1]);
+                this.otherMove = new Move(byOther[1], player);
                 System.out.println(byOther[1]);
             }
             move = byOther[0];
