@@ -51,9 +51,12 @@ public class ChessGame {
                         observers.forEach(o -> o.onMove(board, m, p));
                         validMoves = requestNextPlayer();
                         if (validMoves == null) {
-                            // TODO this is where we will need to put code for draw on no moves and for win if player is in check
-                            NamedColor defaultWinner = players[Math.abs(player - 1)].getColor();
-                            observers.forEach(o -> o.onGameOver(defaultWinner));
+                            if (board.isChecked(players[player].getColor())) {
+                                NamedColor defaultWinner = players[Math.abs(player - 1)].getColor();
+                                observers.forEach(o -> o.onGameOver(defaultWinner));
+                            } else {
+                                observers.forEach(GameObserver::onDraw);
+                            }
                             stopClock();
                         }
                         else if (board.isChecked(players[player].getColor())) {
