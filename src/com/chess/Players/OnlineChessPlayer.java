@@ -2,6 +2,7 @@ package com.chess.Players;
 
 import com.chess.Game.Move;
 import com.chess.Game.NamedColor;
+import com.chess.Settings;
 import javafx.util.Pair;
 
 import java.io.BufferedReader;
@@ -113,7 +114,7 @@ public abstract class OnlineChessPlayer extends HumanChessPlayer {
             assert latestLine != null;
             String[] data = latestLine.split(",,");
             Integer lineNum = Integer.parseInt(data[0]);
-            Move move = new Move(data[1]);
+            Move move = new Move(data[1], color == Settings.p1Color ? 1 : 2);
             return new Pair<>(lineNum, move);
         } catch (Exception e) {
             return null;
