@@ -77,8 +77,6 @@ public class GUIGamePrinter extends JPanel implements GameObserver {
     public void onCheck(NamedColor inCheck) {
         this.lastCheckCalled = System.nanoTime();
         repaint();
-
-
     }
 
     @Override
@@ -196,10 +194,8 @@ public class GUIGamePrinter extends JPanel implements GameObserver {
             g.setFont(new Font("TimesRoman", Font.BOLD,  radius));
             g.setColor(Settings.highlightColor);
             g.drawString(message, squareWidth * 8 / 2 - (int) (2.7 * radius) + offsetWidth, squareHeight * 8 / 2);
-
         }
     }
-
 
     @Override
     public Dimension getMaximumSize() {
