@@ -137,6 +137,9 @@ public class GUISetup {
         JMenuItem helpMenuItem = new JMenuItem("Help");
         helpMenuItem.addActionListener(e -> switchToHelp());
 
+        JMenuItem aboutMenuItem = new JMenuItem("About");
+        aboutMenuItem.addActionListener(e -> switchToAbout());
+
         JMenuItem rulesMenuItem = new JMenuItem("Rules");
         rulesMenuItem.addActionListener(e -> {
             try {
@@ -155,6 +158,7 @@ public class GUISetup {
         //Build final help menu and add to bar
         helpMenu.add(helpMenuItem);
         helpMenu.add(rulesMenuItem);
+        helpMenu.add(aboutMenuItem);
         menuBar.add(helpMenu);
 
         frame.setJMenuBar(menuBar);
@@ -482,8 +486,20 @@ public class GUISetup {
     }
 
     private static Component buildAboutComponents() {
-        //TODO
-        return null;
+        JPanel container = new JPanel(new GridLayout(1, 2));
+        JTextArea text = new JTextArea();
+        text.setText("Classic Chess was created by Mohammad Asim Iqbal, Binh Tran, Carter Walsh, Christopher Xi, and Shivansh Suhane for SE181 \n\n" +
+                "Version: " + Settings.version);
+        text.setLineWrap(true);
+        text.setWrapStyleWord(true);
+        text.setFont(text.getFont().deriveFont(20f));
+        text.setOpaque(false);
+        text.setBackground(new Color(0, 0, 0, 0));
+        text.setEditable(false);
+        text.setAlignmentY(50);
+        container.add(text);
+        container.setPreferredSize(new Dimension(300, 300));
+        return container;
     }
 
     private static void switchToOnePlayer() {
@@ -532,10 +548,16 @@ public class GUISetup {
         return settingsComponents;
     }
 
-    @SuppressWarnings("unused")
-    public static Component switchToAbout() {
+    public static void switchToAbout() {
         Component aboutComponents = buildAboutComponents();
-        switchTo(aboutComponents);
-        return aboutComponents;
+        JDialog about = new JDialog();
+        about.setMinimumSize(new Dimension(800, 200));
+        about.setIconImages(icons);
+        about.setTitle("About");
+        about.setModal(true);
+        about.add(aboutComponents);
+
+        about.pack();
+        about.setVisible(true);
     }
 }
