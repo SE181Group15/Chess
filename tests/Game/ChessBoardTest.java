@@ -10,11 +10,9 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 public class ChessBoardTest {
 
-    ChessBoard myBoard = new ChessBoard(Settings.p1Color, Settings.p2Color);
+    private final ChessBoard myBoard = new ChessBoard(Settings.p1Color, Settings.p2Color);
 
     @Test
     public void getAllMoves() {
@@ -25,6 +23,7 @@ public class ChessBoardTest {
         Assert.assertNotEquals(p1Moves, p2Moves);
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void getAllMovesFrom() {
         List<Move> moves = myBoard.getAllMoves(new Coordinate(1, 1), false);

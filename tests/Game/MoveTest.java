@@ -7,17 +7,13 @@ import com.chess.Game.Pieces.Queen;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.naming.Name;
-
 import java.security.InvalidParameterException;
-
-import static org.junit.Assert.*;
 
 public class MoveTest {
 
-    Coordinate coord1 = new Coordinate(1, 1);
-    Coordinate coord2 = new Coordinate(2, 2);
-    Coordinate coord3 = new Coordinate(3, 3);
+    private final Coordinate coord1 = new Coordinate(1, 1);
+    private final Coordinate coord2 = new Coordinate(2, 2);
+    private final Coordinate coord3 = new Coordinate(3, 3);
 
     @Test
     public void getFromAndTo() {
@@ -106,7 +102,7 @@ public class MoveTest {
         Assert.assertNotEquals(m, new Move(coord1, coord1));
         Assert.assertNotEquals(m, new Move(coord1, coord3));
         Assert.assertNotEquals(m, new Move(coord1, coord3, coord2));
-        Assert.assertNotEquals(m, new Integer(1));
+        Assert.assertNotEquals(m, 1);
     }
 
     @Test

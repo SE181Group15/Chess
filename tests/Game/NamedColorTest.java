@@ -4,8 +4,6 @@ import com.chess.Game.NamedColor;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class NamedColorTest {
 
     @Test
@@ -28,6 +26,6 @@ public class NamedColorTest {
     public void equals() {
         Assert.assertEquals(NamedColor.ivory, NamedColor.ivory);
         Assert.assertNotEquals(NamedColor.ivory, NamedColor.black);
-        Assert.assertNotEquals(NamedColor.white, new Integer(1));
+        Assert.assertNotEquals(NamedColor.white, 1);
     }
 }

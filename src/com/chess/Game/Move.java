@@ -93,6 +93,7 @@ public class Move{
         return (isCapture() ? "Capture " + capture + ": " : "Move: ") + from + " -> " + to + (promoteTo != null ? ":+" + promoteTo.toString() : "") + (otherMove != null ? ":-" + otherMove.toString() : "");
     }
 
+    @SuppressWarnings("EqualsBetweenInconvertibleTypes")
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Move)) {
