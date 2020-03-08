@@ -124,6 +124,15 @@ public abstract class Piece {
     @Override
     public abstract Piece clone();
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Piece)) {
+            return false;
+        }
+        Piece p = (Piece) o;
+        return color.equals(p.getColor()) && getName().equals(p.getName());
+    }
+
     public int getPlayer() { return this.player; }
 
     public void setPlayer(int player) {
