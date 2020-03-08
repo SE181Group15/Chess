@@ -165,6 +165,18 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/chess/ChessPlayerFactory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="495">
+              <caret line="53" column="26" selection-start-line="53" selection-start-column="26" selection-end-line="53" selection-end-column="26" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -239,6 +251,7 @@
         <option value="$PROJECT_DIR$/src/com/chess/GameObservers/StringGamePrinter.java" />
         <option value="$PROJECT_DIR$/src/com/chess/Players/ChessPlayer.java" />
         <option value="$PROJECT_DIR$/src/com/chess/GameObservers/GUITurnPrinter.java" />
+        <option value="$PROJECT_DIR$/src/com/chess/Settings.java" />
         <option value="$PROJECT_DIR$/src/com/chess/GUISetup.java" />
         <option value="$PROJECT_DIR$/src/com/chess/Game/Pieces/Bishop.java" />
         <option value="$PROJECT_DIR$/src/com/chess/Game/Pieces/King.java" />
