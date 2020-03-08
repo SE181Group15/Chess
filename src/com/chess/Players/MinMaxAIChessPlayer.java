@@ -30,7 +30,7 @@ public class MinMaxAIChessPlayer extends AIChessPlayer {
                 for(Move m: moves) {
                     ChessBoard newBoard = board.clone();
                     newBoard.makeMove(m);
-                    int score = Min_Value(newBoard,1);
+                    int score = Min_Value(newBoard,1, Integer.MIN_VALUE, Integer.MAX_VALUE);
                     if(score > maxScore || (score == maxScore && Math.random() > .5f)) {
                         rv = m;
                         maxScore = score;
@@ -42,7 +42,7 @@ public class MinMaxAIChessPlayer extends AIChessPlayer {
                 for(Move m: moves) {
                     ChessBoard newBoard = board.clone();
                     newBoard.makeMove(m);
-                    int score = Max_Value(newBoard,1);
+                    int score = Max_Value(newBoard,1, Integer.MIN_VALUE, Integer.MAX_VALUE);
                     if(score < maxScore || (score == maxScore && Math.random() > .2f)) {
                         rv = m;
                         maxScore = score;
@@ -61,27 +61,33 @@ public class MinMaxAIChessPlayer extends AIChessPlayer {
         }
     }
 
-    private int Max_Value(ChessBoard state, int d){
+    private int Max_Value(ChessBoard state, int d, int alpha, int beta){
         if(d > searchDepth) return state.score();
         int v = Integer.MIN_VALUE;
-        List<Move> mvs = state.getAllMoves(Settings.p1Color, false);
+        List<Move> mvs = state.getAllMoves(Settings.p1Color, true);
         for(Move m: mvs) {
             ChessBoard board = state.clone();
             board.makeMove(m);
-            v = Math.max(v, Min_Value(board,d+1));
+            alpha = Math.max(alpha, Min_Value(board,d + 1, alpha, beta));
+            if (beta <= alpha) {
+                break;
+            }
         }
-        return v;
+        return alpha;
     }
-    private int Min_Value(ChessBoard state, int d){
+    private int Min_Value(ChessBoard state, int d, int alpha, int beta){
         if(d > searchDepth) return state.score();
         int v = Integer.MAX_VALUE;
-        List<Move> mvs = state.getAllMoves(Settings.p2Color, false);
+        List<Move> mvs = state.getAllMoves(Settings.p2Color, true);
         for(Move m: mvs) {
             ChessBoard board = state.clone();
             board.makeMove(m);
-            v = Math.min(v, Max_Value(board, d + 1));
+            beta = Math.min(beta, Max_Value(board, d + 1, alpha, beta));
+            if (beta <= alpha) {
+                break;
+            }
         }
-        return v;
+        return beta;
     }
 
     @Override

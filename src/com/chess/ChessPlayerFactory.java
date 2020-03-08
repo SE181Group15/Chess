@@ -48,10 +48,10 @@ class ChessPlayerFactory {
                     players[i] = new RandomChessPlayer(colors[i]);
                     break;
                 case "M":
-                    players[i] = new MinMaxAIChessPlayer(colors[i], 1);
+                    players[i] = new MinMaxAIChessPlayer(colors[i], 2);
                     break;
                 case "H":
-                    players[i] = new MinMaxAIChessPlayer(colors[i], 2);
+                    players[i] = new MinMaxAIChessPlayer(colors[i], 3);
                     break;
             }
         }

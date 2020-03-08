@@ -5,6 +5,7 @@ import com.chess.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ChessBoard {
     private Piece[][] board = new Piece[8][8];
@@ -55,7 +56,7 @@ public class ChessBoard {
     public List<Move> getAllMoves(NamedColor color, boolean forCheck) {
         List<Move> moves = new ArrayList<>();
         for (int y = 0; y < board.length; y++) {
-            for (int x = 0; x < board[y].length; x++) {
+            for (int x = 0; x < board.length; x++) {
                 moves.addAll(getAllMoves(color, new Coordinate(x, y), forCheck));
             }
         }
@@ -109,18 +110,13 @@ public class ChessBoard {
     }
 
     public boolean isUnderThreat(Coordinate position, NamedColor player) {
-        ChessBoard clone = clone();
         NamedColor enemy;
-        int p;
         if (p1Color.equals(player)) {
             enemy = p2Color;
-            p = 2;
         } else {
             enemy = p1Color;
-            p = 1;
         }
-        clone.setPosition(position, new Pawn(player, p));
-        List<Move> enemyMoves = clone.getAllMoves(enemy, true);
+        List<Move> enemyMoves = getAllMoves(enemy, true);
         for (Move m: enemyMoves) {
             if (m.isCapture() && m.getCapture().equals(position)) {
                 return true;
@@ -203,6 +199,38 @@ public class ChessBoard {
         return score;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof ChessBoard)) {
+            return false;
+        }
+        ChessBoard cb = (ChessBoard) o;
+        if (!(cb.p1Color.equals(p1Color) && cb.p2Color.equals(p2Color))) {
+            return false;
+        }
+        for (int y = 0; y < board.length; y++) {
+            Piece[] row = board[y];
+            Piece[] cbRow = cb.board[y];
+            for (int x = 0; x < board.length; x++) {
+                if ((row[x] == null && row[y] == null) || row[x] != null && !row[x].equals(cbRow[x])) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        StringBuilder s = new StringBuilder();
+        for (Piece[] row : board) {
+            for (int x = 0; x < board.length; x++) {
+                s.append(row[x] == null ? "X" : row[x].toString());
+            }
+        }
+        return Objects.hash(s.toString());
+    }
+
     public Piece getPiece(Coordinate c) {
         return board[c.getY()][c.getX()];
     }
@@ -211,5 +239,9 @@ public class ChessBoard {
         Piece p = board[c.getY()][c.getX()];
         board[c.getY()][c.getX()] = set;
         return p;
+    }
+
+    public boolean isGameOver() {
+        return (isChecked(p1Color) && getAllMoves(p1Color, false).size() == 0) || (isChecked(p2Color) && getAllMoves(p2Color, false).size() == 0);
     }
 }
