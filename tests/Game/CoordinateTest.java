@@ -8,7 +8,7 @@ import java.security.InvalidParameterException;
 public class CoordinateTest {
 
     @org.junit.Test
-    public void getXandY() {
+    public void getXAndY() {
         Coordinate myCoord = new Coordinate(1, 2);
         assert(myCoord.getX() == 1);
         assert(myCoord.getY() == 2);
@@ -70,12 +70,13 @@ public class CoordinateTest {
         assert(sizeError);
     }
 
+    @SuppressWarnings("EqualsBetweenInconvertibleTypes")
     @org.junit.Test
     public void equals() {
         Coordinate myCoord = new Coordinate(1, 2);
         assert(myCoord.equals(new Coordinate(1, 2)));
         assert(!myCoord.equals(new Coordinate(2, 1)));
-        assert(!myCoord.equals(new Integer(1)));
+        assert(!myCoord.equals(1));
     }
 
     @org.junit.Test

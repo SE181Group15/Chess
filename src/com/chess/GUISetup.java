@@ -548,7 +548,7 @@ public class GUISetup {
         return settingsComponents;
     }
 
-    public static void switchToAbout() {
+    private static void switchToAbout() {
         Component aboutComponents = buildAboutComponents();
         JDialog about = new JDialog();
         about.setMinimumSize(new Dimension(800, 200));
