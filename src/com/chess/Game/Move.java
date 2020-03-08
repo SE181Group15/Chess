@@ -99,7 +99,7 @@ public class Move{
             return false;
         }
         Move m = (Move) o;
-        return m.getFrom().equals(getFrom()) && m.getTo().equals(getTo());
+        return m.getFrom().equals(getFrom()) && m.getTo().equals(getTo()) && ((m.getCapture() == null && getCapture() == null) || (m.getCapture() != null && m.getCapture().equals(getCapture()))) && ((m.getPromoteTo() == null && getPromoteTo() == null) || (m.getPromoteTo() != null && m.getPromoteTo().toString().equals(getPromoteTo()))) && ((m.getOtherMove() == null && getOtherMove() == null) || (m.getOtherMove() != null && m.getOtherMove().equals(getOtherMove())));
     }
 
     public Move flip() {
