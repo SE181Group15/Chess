@@ -13,7 +13,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Chess$All_in_Chess.ic" NAME="All in Chess Coverage Results" MODIFIED="1583615746481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/Chess$All_in_Chess.ic" NAME="All in Chess Coverage Results" MODIFIED="1583758725648" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/Chess$Manual_container_configuration__CoordinateTest.ic" NAME="Manual container configuration: CoordinateTest Coverage Results" MODIFIED="1583604552945" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.*</FILTER>
     </SUITE>
@@ -84,7 +84,7 @@
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/Users/car4p/OneDrive/School/Drexel/2018-19/Winter/CS 338/src/com/carter/Checkers/Piece.java" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1583618111756" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1583759350027" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.Arquillian JUnit4" value="" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
@@ -108,22 +108,22 @@
       <recent name="Game" />
       <recent name="com.chess.Game" />
     </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.chess.Game.Pieces" />
-      <recent name="com.carter" />
-    </key>
-    <key name="CreateTestDialog.Recents.Supers">
-      <recent name="" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\car4p\OneDrive\School\Drexel\Winter\SE181-Intro_to_Software_Engineering\Project\repos\Chess\tests" />
+      <recent name="C:\Users\car4p\OneDrive\School\Drexel\2018-19\Winter\CS 338\src\com\carter\Assets" />
+      <recent name="C:\Users\car4p\OneDrive\School\Drexel\2018-19\Winter\CS 338\src\com\carter" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="Game.Pieces" />
       <recent name="com.chess.Game.Pieces" />
       <recent name="com.carter.Players" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\car4p\OneDrive\School\Drexel\Winter\SE181-Intro_to_Software_Engineering\Project\repos\Chess\tests" />
-      <recent name="C:\Users\car4p\OneDrive\School\Drexel\2018-19\Winter\CS 338\src\com\carter\Assets" />
-      <recent name="C:\Users\car4p\OneDrive\School\Drexel\2018-19\Winter\CS 338\src\com\carter" />
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.chess.Game.Pieces" />
+      <recent name="com.carter" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Main">
