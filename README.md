@@ -43,25 +43,23 @@ Here's an inexhaustive list of the main features:
 ## Visuals
 
 Sample game board
-![ScreenShot](https://{https://postimg.cc/WhhGw4P3})
+![ScreenShot](https://{postimg.cc/0MkmMkf9})
 
 Starting off
-![ScreenShot](https://{https://postimg.cc/xkSLQyNJ})
+![ScreenShot](https://{postimg.cc/xkSLQyNJ})
 
 Choosing AI difficulty
-![ScreenShot](https://{https://postimg.cc/ft8dYG2m})
+![ScreenShot](https://{postimg.cc/ft8dYG2m})
 
 Choosing 2-Player mode
-![ScreenShot](https://{https://postimg.cc/2qFhSbnH})
+![ScreenShot](https://{postimg.cc/2qFhSbnH})
 
 Joining a game
-![ScreenShot](https://{https://postimg.cc/2VM4cfzx})
+![ScreenShot](https://{postimg.cc/2VM4cfzx})
 
 Creating a game
-![ScreenShot](https://{https://postimg.cc/ts6F8mJG})
+![ScreenShot](https://{postimg.cc/ts6F8mJG})
 
-Move suggestions
-![ScreenShot](https://{https://postimg.cc/0MkmMkf9})
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
