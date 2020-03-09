@@ -43,22 +43,22 @@ Here's an inexhaustive list of the main features:
 ## Visuals
 
 Sample game board
-![ScreenShot](https://{postimg.cc/0MkmMkf9})
+[![Screen-Shot-2020-03-09-at-9-43-42-AM.png](https://i.postimg.cc/V6MFh500/Screen-Shot-2020-03-09-at-9-43-42-AM.png)](https://postimg.cc/0MkmMkf9)
 
 Starting off
-![ScreenShot](https://{postimg.cc/xkSLQyNJ})
+[![Screen-Shot-2020-03-09-at-9-42-06-AM.png](https://i.postimg.cc/d0h685qB/Screen-Shot-2020-03-09-at-9-42-06-AM.png)](https://postimg.cc/xkSLQyNJ)
 
 Choosing AI difficulty
-![ScreenShot](https://{postimg.cc/ft8dYG2m})
+[![Screen-Shot-2020-03-09-at-9-42-16-AM.png](https://i.postimg.cc/nrJ1fZqR/Screen-Shot-2020-03-09-at-9-42-16-AM.png)](https://postimg.cc/ft8dYG2m)
 
 Choosing 2-Player mode
-![ScreenShot](https://{postimg.cc/2qFhSbnH})
-
-Joining a game
-![ScreenShot](https://{postimg.cc/2VM4cfzx})
+[![Screen-Shot-2020-03-09-at-9-42-34-AM.png](https://i.postimg.cc/d0gBnG3K/Screen-Shot-2020-03-09-at-9-42-34-AM.png)](https://postimg.cc/2qFhSbnH)
 
 Creating a game
-![ScreenShot](https://{postimg.cc/ts6F8mJG})
+[![Screen-Shot-2020-03-09-at-9-42-48-AM.png](https://i.postimg.cc/nhRTjytr/Screen-Shot-2020-03-09-at-9-42-48-AM.png)](https://postimg.cc/ts6F8mJG)
+
+Joining a game
+[![Screen-Shot-2020-03-09-at-9-43-02-AM.png](https://i.postimg.cc/Z5KVqT2X/Screen-Shot-2020-03-09-at-9-43-02-AM.png)](https://postimg.cc/2VM4cfzx)
 
 
 ## Contributing
