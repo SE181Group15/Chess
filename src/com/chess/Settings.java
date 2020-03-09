@@ -17,5 +17,5 @@ public class Settings {
     public static boolean reverseOrder = false;
     public static final boolean soundEffects = true;
     public static NamedColor yourColor = null;
-    public static final String version = "1.0";
+    public static final String version = "1.1";
 }

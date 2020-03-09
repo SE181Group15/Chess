@@ -79,7 +79,7 @@ public class GUISetup {
         createOptionsImage = scaleImage(new ImageIcon(getClass().getResource("/com/chess/Assets/createOptions.JPG")), imageWidth, imageHeight);
         onePlayerOptionsImage = scaleImage(new ImageIcon(getClass().getResource("/com/chess/Assets/onePlayerOptions.JPG")), imageWidth, imageHeight);
         twoPlayerOptionsImage = scaleImage(new ImageIcon(getClass().getResource("/com/chess/Assets/twoPlayerOptions.JPG")), imageWidth, imageHeight);
-        clickPieceImage = scaleImage(new ImageIcon(getClass().getResource("/com/chess/Assets/clickPiece.JPG")), imageWidth, imageHeight);
+        clickPieceImage = scaleImage(new ImageIcon(getClass().getResource("/com/chess/Assets/pieceSelection.png")), imageWidth, imageHeight);
         frame.setIconImages(icons);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);
